@@ -1,0 +1,8 @@
+Här är 2 OpenGL exempel som jag inte kollat någonting på,
+bara kompilerat och testat så det fungerar. Jag vet inte
+säkert, men jag tror opengl kan vara en lösning för att
+spela upp YUV422 i X.
+
+Filerna kan kompileras med:
+gcc -lglut -lGLU main.c -o opengl_test
+gcc -lglut main2.c -o opengl_test2
