@@ -1,0 +1,10 @@
+Utbyggnad på exempelkoden som följer med V4L2:s
+API. Den fångar 100 frames i formatet YUV422,
+konverterar dem till RGB och sparar dem som ppm-
+bilder.
+
+Koden kan kompileras med:
+gcc -lv4l2 capture.c -o capture
+
+För BeagleBoarden räcker det med:
+arm-angstrom-linux-gnueabi-gcc capture.c -o capture
