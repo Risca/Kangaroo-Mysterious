@@ -1,0 +1,9 @@
+Detta program samlar in YUV2-frames från webcam
+och låter DirectFB visa dem på skärmen. DirectFB
+arbetar genom att flippa en front och en back
+buffer. Jag antar att det fungerar genom att man
+fyller en back buffer med data för att sedan
+flippa den till en front buffer, dvs det som
+visas på skärmen, men jag är inte helt säker.
+Pitch är ett värde på hur många bytes det går på
+en rad.
