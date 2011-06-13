@@ -3,7 +3,6 @@
 static IDirectFB *dfb = NULL;
 static IDirectFBFont *font = NULL;
 static IDirectFBSurface *primary = NULL;
-//static DFBRectangle rect;
 static int screen_width  = 0;
 static int screen_height = 0;
 static char *title = "Kangaroo-Mysterius";
@@ -32,7 +31,7 @@ int directfb_init(int argc, char *argv[])
     DFBCHECK (primary->FillRectangle (primary, 0, 0, screen_width, screen_height));
     /* Print text */
     DFBCHECK (primary->SetColor (primary, 0x80, 0x0, 0x20, 0xFF));
-    DFBCHECK (primary->DrawString (primary, title, -1, 10, screen_height / 2, DSTF_LEFT));
+    DFBCHECK (primary->DrawString (primary, title, -1, 10, screen_height-100, DSTF_LEFT));
     /* Flip the front and back buffer, but wait for the vertical retrace to avoid tearing. */
     DFBCHECK (primary->Flip (primary, NULL, DSFLIP_WAITFORSYNC));
 
@@ -63,7 +62,15 @@ void CopyYUVData(const void *src, IDirectFBSurface *des)
 int directfb_render(const void *p)
 {
     CopyYUVData(p, primary);
+    /* Flip the front and back buffer, but wait for the vertical retrace to avoid tearing. */
     DFBCHECK (primary->Flip (primary, NULL, DSFLIP_WAITFORSYNC));
 
+    return 0;
+}
+
+int directfb_release()
+{
+    primary->Release(primary);
+    dfb->Release(dfb);
     return 0;
 }

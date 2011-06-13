@@ -25,5 +25,6 @@
 
 int directfb_init(int argc, char *argv[]);
 int directfb_render(const void *p);
+int directfb_release();
 
 #endif // DIRECTFB_INC_H

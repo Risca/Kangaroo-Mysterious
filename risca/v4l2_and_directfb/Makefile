@@ -4,7 +4,7 @@ EXECUTABLE = v4l2_and_directfb
 CC=gcc
 PKGCONFIG=pkg-config
 
-CFLAGS  += $(shell $(PKGCONFIG) --cflags directfb)
+CFLAGS  += $(shell $(PKGCONFIG) --cflags directfb) -Wall
 LDFLAGS +=
 LIBS    += $(shell $(PKGCONFIG) --libs directfb) -lv4l2
 

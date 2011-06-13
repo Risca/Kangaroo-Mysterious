@@ -3,7 +3,6 @@
 #include <getopt.h>             /* getopt_long() */
 
 #include "v4l2_inc.h"
-//#include "common.h"
 #include "directfb_inc.h"
 
 char *dev_name = NULL;
@@ -94,6 +93,9 @@ int main(int argc,char *argv[])
 
     mainloop ();
     printf("\nMainloop done\n");
+
+    directfb_release();
+    printf("DirectFB released\n");
 
     stop_capturing ();
     uninit_device ();
