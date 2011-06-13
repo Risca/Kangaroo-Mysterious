@@ -16,7 +16,7 @@ int directfb_init(int argc, char *argv[])
     DFBCHECK (DirectFBCreate (&dfb));
     DFBCHECK (dfb->SetCooperativeLevel (dfb, DFSCL_NORMAL));
     dsc.flags = DSDESC_CAPS | DSDESC_PIXELFORMAT;
-    dsc.caps  = DSCAPS_PRIMARY | DSCAPS_FLIPPING;
+    dsc.caps  = DSCAPS_PRIMARY | DSCAPS_INTERLACED | DSCAPS_FLIPPING; 
     dsc.pixelformat = DSPF_YUY2;
     DFBCHECK (dfb->CreateSurface( dfb, &dsc, &primary ));
     DFBCHECK (primary->GetSize (primary, &screen_width, &screen_height));
@@ -39,30 +39,11 @@ int directfb_init(int argc, char *argv[])
     return 23;
 }
 
-void CopyYUVData(const void *src, IDirectFBSurface *des)
-{
-    int y;
-    void             *data;
-    int               pitch;
-    DFBResult         ret;
-    ret = des->Lock (des, DSLF_WRITE, &data, &pitch);
-    if (ret)
-    {
-        fprintf(stderr,"IDirectFBSurface:ock error code =%d", ret);
-        return;
-    }
-    for(y=0; y<YUVSRC_H; y++)
-    {
-        memcpy(data, src+YUVFRAME_Pitch*y, YUVFRAME_Pitch);
-        data += pitch;
-    }
-    des->Unlock (des);
-}
-
 int directfb_render(const void *p)
 {
-    CopyYUVData(p, primary);
-    /* Flip the front and back buffer, but wait for the vertical retrace to avoid tearing. */
+    DFBRectangle rect = {0,0,YUVSRC_W,YUVSRC_H};
+    primary->Write(primary,&rect,p,YUVFRAME_Pitch);
+//    DFBCHECK (primary->Flip (primary, NULL, DSFLIP_NONE));
     DFBCHECK (primary->Flip (primary, NULL, DSFLIP_WAITFORSYNC));
 
     return 0;
