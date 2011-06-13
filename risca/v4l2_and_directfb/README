@@ -7,3 +7,10 @@ flippa den till en front buffer, dvs det som
 visas på skärmen, men jag är inte helt säker.
 Pitch är ett värde på hur många bytes det går på
 en rad.
+
+Jag bestämde mig för att fixa en Makefile till
+denna för att slippa skriva långa kommandon
+direkt så nu är det bara att skriva:
+make
+eller
+make clean && make
