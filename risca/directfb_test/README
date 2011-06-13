@@ -1,0 +1,6 @@
+Ett litet testprogram med DirectFB. Den laddar
+dfblogo.png och låten den långsamt passera över
+skärmen.
+
+Kompileras med:
+gcc `pkg-config --cflags --libs directfb` image_ex.c -o image_ex
