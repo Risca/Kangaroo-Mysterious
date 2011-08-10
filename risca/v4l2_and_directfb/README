@@ -14,3 +14,6 @@ direkt så nu är det bara att skriva:
 make
 eller
 make clean && make
+
+Om man vill kompilera till arm så gäller:
+make -f Makefile.arm
