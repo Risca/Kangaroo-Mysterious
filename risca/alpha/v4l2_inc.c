@@ -25,7 +25,8 @@ int clamp(double x)
 
 void process_image(void *p)
 {
-    add_brightness(128,p);
+//    add_brightness(128,p);
+    add_green_tint(p);
     directfb_render(p);
 }
 

@@ -19,3 +19,25 @@ void add_brightness(unsigned char b, void *p)
         }
     }
 }
+
+void add_green_tint(void *p)
+{
+    unsigned char *data=(unsigned char*)p;
+    unsigned char green=30;
+    unsigned int i,j;
+    for (j=0;j<YUVSRC_H;j++)
+    {
+        for (i=0;i<YUVSRC_W;i++)
+        {
+            data++;
+            if (*data < green) {
+                *data=0;
+            } else {
+                *data-=green;
+            }
+            data++;
+        }
+    }
+
+}
+
