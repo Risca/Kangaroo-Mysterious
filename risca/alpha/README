@@ -1,0 +1,8 @@
+First alpha stage of program. Current capabilities include:
+add_brightness(unsigned char b, void *p);
+
+Compile with
+make
+or
+make -f Makefile.arm
+for ARM
