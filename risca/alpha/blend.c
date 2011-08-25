@@ -18,5 +18,4 @@ void add_brightness(unsigned char b, void *p)
             data++;data++;
         }
     }
-//    directfb_render(p);
 }
