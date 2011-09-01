@@ -10,16 +10,37 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "conv.h"
 #include "directfb_inc.h"
 
-int main(void)
+int main(int argc, char* argv[])
 {
+	uint8* (*render_fcn)(uint16, uint16);
+	if( argc > 1 )
+	{
+		if( !strcmp(argv[1], "-bars") )
+		{
+			render_fcn = genbars;
+		}
+		else if( !strcmp(argv[1], "-grad") )
+		{
+			render_fcn = gengrad;
+		}
+		else
+		{
+			printf("Give me some arguments, asshole!");
+			render_fcn = NULL;
+		}
+
+	}
 	// init directFB
 	directfb_init(0, NULL);
 
 	// Generate an image
-	uint8 *image = genimg(640, 480);
+	uint8 *image = render_fcn(640, 480);
+	image = convimg(image, NULL);
+
 
 	// display image
 	directfb_render(image);
