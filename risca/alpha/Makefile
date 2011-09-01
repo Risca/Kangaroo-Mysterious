@@ -1,0 +1,17 @@
+SOURCES    = alpha.c v4l2_inc.c directfb_inc.c blend.c
+EXECUTABLE = alpha
+
+CC=gcc
+PKGCONFIG=pkg-config
+
+CFLAGS  += $(shell $(PKGCONFIG) --cflags directfb) -Wall
+LDFLAGS +=
+LIBS    += $(shell $(PKGCONFIG) --libs directfb) -lv4l2
+
+all: $(EXECUTABLE)
+
+%: %.c
+	$(CC) $(SOURCES) $(CFLAGS) $(LDFLAGS) -o $(EXECUTABLE) $(LIBS)
+
+clean:
+	@rm -rf $(EXECUTABLE)
