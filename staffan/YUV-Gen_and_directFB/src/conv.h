@@ -16,10 +16,14 @@ extern "C"{
 typedef unsigned char uint8;
 typedef unsigned int uint32;
 typedef unsigned short int uint16;
+typedef short int int16;
 
 #define IMG_WIDTH 	640
 #define IMG_HEIGHT 	480
 
+#define KERNEL_SIZE	5
+#define KERN_MAX_INDEX (KERNEL_SIZE-1)/2
+#define BORDER		0
 
 
 // Function prototypes
