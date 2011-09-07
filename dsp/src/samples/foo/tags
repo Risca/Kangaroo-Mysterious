@@ -1,0 +1,79 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+APP_MSG_SIZE	foo_config.h	58;"	d
+DSPLINK_INT_ID	main.c	119;"	d	file:
+DSPLINK_INT_ID	main.c	138;"	d	file:
+DSPLINK_INT_ID	main.c	158;"	d	file:
+DSPLINK_INT_ID	main.c	178;"	d	file:
+DSPLINK_INT_ID	main.c	198;"	d	file:
+DSPLINK_INT_ID	main.c	217;"	d	file:
+DSPLINK_INT_ID	main.c	236;"	d	file:
+DSPLINK_INT_ID	main.c	255;"	d	file:
+DSPLINK_INT_ID	main.c	274;"	d	file:
+DSPLINK_INT_VEC_ID	main.c	110;"	d	file:
+DSPLINK_INT_VEC_ID	main.c	129;"	d	file:
+DSPLINK_INT_VEC_ID	main.c	149;"	d	file:
+DSPLINK_INT_VEC_ID	main.c	169;"	d	file:
+DSPLINK_INT_VEC_ID	main.c	189;"	d	file:
+DSPLINK_INT_VEC_ID	main.c	208;"	d	file:
+DSPLINK_INT_VEC_ID	main.c	227;"	d	file:
+DSPLINK_INT_VEC_ID	main.c	246;"	d	file:
+DSPLINK_INT_VEC_ID	main.c	265;"	d	file:
+DSPLINK_initFlag	main.c	/^volatile Uint32 DSPLINK_initFlag = 0xBABAC0C0 ;$/;"	v
+DSP_MSGQNAME	foo_config.h	82;"	d
+FILEID	main.c	83;"	d	file:
+FILEID	tskFoo.c	82;"	d	file:
+FOO_	foo.h	43;"	d
+FOO_Pools	foo_config.c	/^POOL_Obj FOO_Pools [NUM_POOLS] =$/;"	v
+FOO_REQUEST_MSGID	foo.h	58;"	d
+GPP_MSGQNAME	foo_config.h	90;"	d
+HAL_initIsr	main.c	/^static Void HAL_initIsr (Ptr arg)$/;"	f	file:
+MAX_BUFFERS	foo_config.h	66;"	d
+MSGQ_config	foo_config.c	/^MSGQ_Config MSGQ_config =$/;"	v
+NUM_BUF_POOL0	foo_config.h	107;"	d
+NUM_BUF_POOL1	foo_config.h	115;"	d
+NUM_BUF_SIZES	foo_config.h	99;"	d
+NUM_MSG_QUEUES	foo_config.c	84;"	d	file:
+NUM_POOLS	foo_config.c	76;"	d	file:
+POOL_config	foo_config.c	/^POOL_Config POOL_config = {FOO_Pools, NUM_POOLS} ;$/;"	v
+SAMPLEMQT_CTRLMSG_SIZE	foo_config.c	95;"	d	file:
+SAMPLEMQT_FXNS	foo_config.c	93;"	d	file:
+SAMPLEMQT_init	foo_config.c	94;"	d	file:
+SAMPLEPOOL_FXNS	foo_config.c	99;"	d	file:
+SAMPLEPOOL_PARAMS	foo_config.c	96;"	d	file:
+SAMPLEPOOL_close	foo_config.h	145;"	d
+SAMPLEPOOL_init	foo_config.c	100;"	d	file:
+SAMPLEPOOL_open	foo_config.h	128;"	d
+SAMPLE_POOL_ID	foo_config.h	74;"	d
+SCALE_CONFIG_	foo_config.h	44;"	d
+SampleMessage	foo.h	/^} SampleMessage ;$/;"	t	typeref:struct:SampleMessage_tag
+SampleMessage_tag	foo.h	/^typedef struct SampleMessage_tag {$/;"	s
+SamplePoolParams	foo_config.c	/^SMAPOOL_Params SamplePoolParams =$/;"	v
+TSKFOO_	tskFoo.h	44;"	d
+TSKFOO_TransferInfo	tskFoo.h	/^} TSKFOO_TransferInfo ;$/;"	t	typeref:struct:TSKFOO_TransferInfo_tag
+TSKFOO_TransferInfo_tag	tskFoo.h	/^typedef struct TSKFOO_TransferInfo_tag {$/;"	s
+TSKFOO_create	tskFoo.c	/^Int TSKFOO_create(TSKFOO_TransferInfo ** infoPtr)$/;"	f
+TSKFOO_delete	tskFoo.c	/^Int TSKFOO_delete (TSKFOO_TransferInfo * info)$/;"	f
+TSKFOO_execute	tskFoo.c	/^Int TSKFOO_execute(TSKFOO_TransferInfo * info)$/;"	f
+bufferSize	tskFoo.h	/^    Uint32      bufferSize ;$/;"	m	struct:TSKFOO_TransferInfo_tag
+dspMsgqQueue	tskFoo.h	/^    MSGQ_Queue  dspMsgqQueue ;$/;"	m	struct:TSKFOO_TransferInfo_tag
+dspWriteAddr	foo.h	/^    Uint32         dspWriteAddr  ;$/;"	m	struct:SampleMessage_tag
+gppMsgqQueue	tskFoo.h	/^    MSGQ_Queue  gppMsgqQueue ;$/;"	m	struct:TSKFOO_TransferInfo_tag
+gppWriteAddr	foo.h	/^    Uint32         gppWriteAddr  ;$/;"	m	struct:SampleMessage_tag
+main	main.c	/^Void main(Int argc, Char *argv[])$/;"	f
+mqtParams	foo_config.c	/^ZCPYMQT_Params  mqtParams = {SAMPLE_POOL_ID} ;$/;"	v
+msgHeader	foo.h	/^    MSGQ_MsgHeader msgHeader     ;$/;"	m	struct:SampleMessage_tag
+msgQueues	foo_config.c	/^static MSGQ_Obj msgQueues [NUM_MSG_QUEUES] ;$/;"	v	file:
+notifyDspSemObj	tskFoo.h	/^    SEM_Obj     notifyDspSemObj ;$/;"	m	struct:TSKFOO_TransferInfo_tag
+numTransfers	main.c	/^Uint32 numTransfers ;$/;"	v
+numTransfers	tskFoo.h	/^    Uint32      numTransfers ;$/;"	m	struct:TSKFOO_TransferInfo_tag
+scalingFactor	foo.h	/^    Uint32         scalingFactor ;$/;"	m	struct:SampleMessage_tag
+scalingFactor	tskFoo.h	/^    Uint32      scalingFactor ;$/;"	m	struct:TSKFOO_TransferInfo_tag
+size	foo.h	/^    Uint32         size          ;$/;"	m	struct:SampleMessage_tag
+smaPoolObj	tskFoo.c	/^SMAPOOL_Params            smaPoolObj ;$/;"	v
+transports	foo_config.c	/^MSGQ_TransportObj transports [MAX_PROCESSORS] =$/;"	v
+tskFoo	main.c	/^static Int tskFoo()$/;"	f	file:
