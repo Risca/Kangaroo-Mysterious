@@ -11,4 +11,4 @@ sed -i s:"DIRS += readwrite":"DIRS += readwrite\n    DIRS += foo":g \
     {gpp,dsp}/src/samples/DIRS
 
 Då ska man kunna köra 'make -s clean && make -s debug && make -s release' i
-{gpp,dsp}/src/samples för att kompilera till både arm och dsp.
+$DSPLINK/{gpp,dsp}/src/samples för att kompilera till både arm och dsp.
