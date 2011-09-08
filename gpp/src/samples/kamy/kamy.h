@@ -1,15 +1,15 @@
 /** ============================================================================
- *  @file   foo.h
+ *  @file   kamy.h
  *
- *  @path   $(DSPLINK)/gpp/src/samples/foo/
+ *  @path   $(DSPLINK)/gpp/src/samples/kamy/
  *
- *  @desc   Defines the interface used for driving the foo application.
+ *  @desc   Defines the interface used for driving the kamy application.
  *
   */
 
 
-#if !defined (FOO_H)
-#define FOO_H
+#if !defined (KM_H)
+#define KM_H
 
 #include <dsplink.h>
 
@@ -20,7 +20,7 @@ extern "C" {
 
 
 /** ============================================================================
- *  @func   FOO_Main
+ *  @func   KM_Main
  *
  *  @desc   The OS independent driver function for the sample application.
  *
@@ -56,7 +56,7 @@ extern "C" {
  */
 NORMAL_API
 Void
-FOO_Main (IN Char8 * dspExecutable,
+KM_Main (IN Char8 * dspExecutable,
            IN Char8 * strDspAddress,
            IN Uint32  dspAddress,
            IN Char8 * strBufferSize,
@@ -66,11 +66,11 @@ FOO_Main (IN Char8 * dspExecutable,
            IN Uint8   processorId) ;
 
 /** ============================================================================
- *  @func   FOO_0Print
+ *  @func   KM_0Print
  *
  *  @desc   Print a message without any arguments.
  *          This is a OS specific function and is implemented in file:
- *              <GPPOS>\FOO_os.c
+ *              <GPPOS>\KM_os.c
  *
  *  @arg    str
  *              String message to be printed.
@@ -86,15 +86,15 @@ FOO_Main (IN Char8 * dspExecutable,
  */
 NORMAL_API
 Void
-FOO_0Print (IN Char8 * str) ;
+KM_0Print (IN Char8 * str) ;
 
 
 /** ============================================================================
- *  @func   FOO_1Print
+ *  @func   KM_1Print
  *
  *  @desc   Print a message with one arguments.
  *          This is a OS specific function and is implemented in file:
- *              <GPPOS>\foo_os.c
+ *              <GPPOS>\kamy_os.c
  *
  *  @arg    str
  *              String message to be printed.
@@ -112,15 +112,15 @@ FOO_0Print (IN Char8 * str) ;
  */
 NORMAL_API
 Void
-FOO_1Print (IN Char8 * str, IN Uint32 arg) ;
+KM_1Print (IN Char8 * str, IN Uint32 arg) ;
 
 
 /** ============================================================================
- *  @func   FOO_Sleep
+ *  @func   KM_Sleep
  *
  *  @desc   Sleeps for the specified number of microseconds.
  *          This is a OS specific function and is implemented in file:
- *              <GPPOS>\FOO_os.c
+ *              <GPPOS>\KM_os.c
  *
  *  @arg    uSec
  *              Microseconds to sleep.
@@ -136,11 +136,11 @@ FOO_1Print (IN Char8 * str, IN Uint32 arg) ;
  */
 NORMAL_API
 Void
-FOO_Sleep (IN Uint32 uSec) ;
+KM_Sleep (IN Uint32 uSec) ;
 
 
 /** ============================================================================
- *  @func   FOO_AllocateBuffer
+ *  @func   KM_AllocateBuffer
  *
  *  @desc   Allocates a buffer of specified size.
  *
@@ -163,11 +163,11 @@ FOO_Sleep (IN Uint32 uSec) ;
  */
 NORMAL_API
 DSP_STATUS
-FOO_AllocateBuffer (IN Uint32 size, OUT Pvoid * buf) ;
+KM_AllocateBuffer (IN Uint32 size, OUT Pvoid * buf) ;
 
 
 /** ============================================================================
- *  @func   FOO_FreeBuffer
+ *  @func   KM_FreeBuffer
  *
  *  @desc   Free the specified buffer.
  *
@@ -185,11 +185,11 @@ FOO_AllocateBuffer (IN Uint32 size, OUT Pvoid * buf) ;
  */
 NORMAL_API
 Void
-FOO_FreeBuffer (IN OUT Pvoid * buf) ;
+KM_FreeBuffer (IN OUT Pvoid * buf) ;
 
 
 /** ============================================================================
- *  @func   FOO_OS_init
+ *  @func   KM_OS_init
  *
  *  @desc   This function initializes the OS specific component.
  *
@@ -209,11 +209,11 @@ FOO_FreeBuffer (IN OUT Pvoid * buf) ;
  */
 NORMAL_API
 DSP_STATUS
-FOO_OS_init (Void) ;
+KM_OS_init (Void) ;
 
 
 /** ============================================================================
- *  @func   FOO_OS_exit
+ *  @func   KM_OS_exit
  *
  *  @desc   This function finalizes the OS specific component.
  *
@@ -233,11 +233,11 @@ FOO_OS_init (Void) ;
  */
 NORMAL_API
 DSP_STATUS
-FOO_OS_exit (Void) ;
+KM_OS_exit (Void) ;
 
 
 /** ============================================================================
- *  @func   FOO_Atoll
+ *  @func   KM_Atoll
  *
  *  @desc   Converts ascii to long int
  *
@@ -246,7 +246,7 @@ FOO_OS_exit (Void) ;
  */
 NORMAL_API
 Uint32
-FOO_Atoll (Char8 * str) ;
+KM_Atoll (Char8 * str) ;
 
 
 #if defined (__cplusplus)
@@ -254,5 +254,5 @@ FOO_Atoll (Char8 * str) ;
 #endif /* defined (__cplusplus) */
 
 
-#endif /* !defined (FOO_H) */
+#endif /* !defined (KM_H) */
 

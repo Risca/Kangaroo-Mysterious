@@ -1,10 +1,9 @@
 #   ============================================================================
-#   @file   Makefile
+#   @file   SOURCES
 #
-#   @path   $(DSPLINK)/gpp/src/samples/foo/
+#   @path   $(DSPLINK)/gpp/src/samples/kamy/
 #
-#   @desc   This file is a standard interface to the make scripts.
-#           Usually no change is required in this file.
+#   @desc   This file contains list of source files to be compiled.
 #
 #   @ver    1.65.00.03
 #   ============================================================================
@@ -40,30 +39,4 @@
 #   ============================================================================
 
 
-#   ============================================================================
-#   Set the device type (GPP/DSP)
-#   ============================================================================
-
-export DEVICETYPE := GPP
-
-
-#   ============================================================================
-#   Get the directory separator used on the development host.
-#   ============================================================================
-
-ifneq ("$(ComSpec)", "")
-    ifeq ("$(OSTYPE)", "cygwin")
-        DIRSEP ?=/
-    else
-        DIRSEP ?=\\
-    endif
-else
-    DIRSEP ?= /
-endif
-
-
-#   ============================================================================
-#   Start the build process
-#   ============================================================================
-
-include $(DSPLINK)$(DIRSEP)make$(DIRSEP)start.mk
+SOURCES := kamy.c

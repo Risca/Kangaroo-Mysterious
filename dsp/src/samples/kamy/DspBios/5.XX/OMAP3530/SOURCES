@@ -1,7 +1,7 @@
 #   ============================================================================
 #   @file   SOURCES
 #
-#   @path   $(DSPLINK)/dsp/src/samples/foo/DspBios/5.XX/OMAP3530/
+#   @path   $(DSPLINK)/dsp/src/samples/kamy/DspBios/5.XX/OMAP3530/
 #
 #   @desc   This file contains list of source files to be compiled.
 #
@@ -41,7 +41,7 @@
 #   ============================================================================
 #   TCONF configuration file (from component base path)
 #   ============================================================================
-TCF_FILE := $(TI_DSPLINK_DSPOS)$(DIRSEP)$(TI_DSPLINK_DSPOSVERSION)$(DIRSEP)$(TI_DSPLINK_DSPDEVICE)$(DIRSEP)foo.tcf
+TCF_FILE := $(TI_DSPLINK_DSPOS)$(DIRSEP)$(TI_DSPLINK_DSPOSVERSION)$(DIRSEP)$(TI_DSPLINK_DSPDEVICE)$(DIRSEP)kamy.tcf
 
 
 #   ============================================================================

@@ -63,7 +63,7 @@ endif # ifeq ($(TI_DSPLINK_USE_CHNL), 1)
 ifeq ($(TI_DSPLINK_USE_MSGQ), 1)
     DIRS += message
     DIRS += readwrite
-    DIRS += foo
+    DIRS += kamy
 #DM648 - Kailash
     ifeq ($(findstring DM648, $(TI_DSPLINK_DSPDEVICES)), DM648)
         DIRS += mapregion

@@ -1,9 +1,9 @@
 /** ============================================================================
- *  @file   foo_os.c
+ *  @file   kamy_config.h
  *
- *  @path   $(DSPLINK)/gpp/src/samples/foo/Linux/
+ *  @path   $(DSPLINK)/dsp/src/samples/kamy/
  *
- *  @desc   OS specific implementation of functions used by the foo application.
+ *  @desc   Header file containing configuration for the KM sample.
  *
  *  @ver    1.65.00.03
  *  ============================================================================
@@ -40,17 +40,8 @@
  */
 
 
-/*  ----------------------------------- OS Specific Headers           */
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <malloc.h>
-
-/*  ----------------------------------- DSP/BIOS Link                 */
-#include <dsplink.h>
-
-/*  ----------------------------------- Application Header            */
-#include <foo.h>
+#if !defined (SCALE_CONFIG_)
+#define SCALE_CONFIG_
 
 
 #if defined (__cplusplus)
@@ -59,150 +50,123 @@ extern "C" {
 
 
 /** ============================================================================
- *  @func   FOO_OS_init
+ *  @const  APP_MSG_SIZE
  *
- *  @desc   This function creates a mem pool.
- *
- *  @modif  None
+ *  @desc   Messaging buffer used by the application.
  *  ============================================================================
  */
-NORMAL_API
-DSP_STATUS
-FOO_OS_init(Void)
-{
-    DSP_STATUS          status = DSP_SOK ;
+#define APP_MSG_SIZE (DSPLINK_ALIGN (sizeof (SampleMessage), DSPLINK_BUF_ALIGN))
 
-    return status ;
-}
+/** ============================================================================
+ *  @const  MAX_BUFFERS
+ *
+ *  @desc   Size of buffers array.
+ *  ============================================================================
+ */
+#define MAX_BUFFERS        100
+
+/** ============================================================================
+ *  @name   SAMPLE_POOL_ID
+ *
+ *  @desc   ID of the pool used for the sample.
+ *  ============================================================================
+ */
+#define SAMPLE_POOL_ID     0
+
+/** ============================================================================
+ *  @const  DSP_MSGQNAME
+ *
+ *  @desc   Name of the message queue on the DSP.
+ *  ============================================================================
+ */
+#define DSP_MSGQNAME       "DSPMSGQ1"
+
+/** ============================================================================
+ *  @const  GPP_MSGQNAME
+ *
+ *  @desc   Name of the message queue on the GPP.
+ *  ============================================================================
+ */
+#define GPP_MSGQNAME       "GPPMSGQ1"
+
+#if defined (PCPY_LINK)
+/** ============================================================================
+ *  @name   NUM_BUF_SIZES
+ *
+ *  @desc   Number of buffer pools to be configured for the allocator.
+ *  ============================================================================
+ */
+#define NUM_BUF_SIZES       2
+
+/** ============================================================================
+ *  @const  NUM_BUF_POOL0
+ *
+ *  @desc   Number of buffers in first buffer pool.
+ *  ============================================================================
+ */
+#define NUM_BUF_POOL0       4
+
+/** ============================================================================
+ *  @const  NUM_BUF_POOL1
+ *
+ *  @desc   Number of buffers in second buffer pool.
+ *  ============================================================================
+ */
+#define NUM_BUF_POOL1       4
+
+/** ============================================================================
+ *  @name   SAMPLEPOOL_open
+ *
+ *  @desc   Macro over the allocator for opening a pool.
+ *
+ *  @arg    poolId
+ *              Pool id.
+ *
+ *  @see    SAMPLEPOOL_close
+ *  ============================================================================
+ */
+#define SAMPLEPOOL_open(poolId, params)                        \
+        (((POOL->allocators [poolId]).fxns->open)              \
+                (&(POOL->allocators [poolId].object),          \
+                 params))
 
 
 /** ============================================================================
- *  @func   FOO_OS_exit
+ *  @name   SAMPLEPOOL_close
  *
- *  @desc   This function deletes a mem pool.
+ *  @desc   Macro over the allocator for closing a pool.
  *
- *  @modif  None
+ *  @arg    poolId
+ *              Pool id.
+ *
+ *  @see    SAMPLEPOOL_open
  *  ============================================================================
  */
-NORMAL_API
-DSP_STATUS
-FOO_OS_exit(Void)
-{
-    DSP_STATUS status = DSP_SOK ;
-
-    return status ;
-}
-
+#define SAMPLEPOOL_close(poolId)                         \
+        (((POOL->allocators [poolId]).fxns->close)       \
+                (POOL->allocators [poolId].object))
 
 /** ============================================================================
- *  @func   FOO_0Print
+ *  @name   POOL
  *
- *  @desc   Print a message without any arguments.
- *
- *  @modif  None
+ *  @desc   Configuration variable defined by the POOL component.
  *  ============================================================================
  */
-NORMAL_API
-Void
-FOO_0Print (Char8 * str)
-{
-    printf (str) ;
-    fflush (stdout) ;
-}
-
+extern POOL_Config  * POOL ;
 
 /** ============================================================================
- *  @func   FOO_1Print
+ *  @name   LOOP_Pools
  *
- *  @desc   Print a message with one arguments.
- *
- *  @modif  None
+ *  @desc   Array of pools.
  *  ============================================================================
  */
-NORMAL_API
-Void
-FOO_1Print (Char8 * str, Uint32 arg)
-{
-    printf (str, arg) ;
-    fflush (stdout) ;
-}
-
-/** ============================================================================
- *  @func   FOO_Sleep
- *
- *  @desc   Sleeps for the specified number of microseconds.
- *          This is a OS specific function and is implemented in file:
- *              <GPPOS>\FOO_os.c
- *
- *  @modif  None
- *  ============================================================================
- */
-NORMAL_API
-Void
-FOO_Sleep (IN Uint32 uSec)
-{
-    usleep (uSec) ;
-}
-
-
-/** ============================================================================
- *  @func   FOO_AllocateBuffer
- *
- *  @desc   Allocates a buffer of specified size.
- *
- *  @modif  None
- *  ============================================================================
- */
-NORMAL_API
-DSP_STATUS
-FOO_AllocateBuffer (IN Uint32 size, OUT Pvoid * buf)
-{
-    DSP_STATUS status = DSP_SOK ;
-
-    *buf = malloc (size) ;
-    if (*buf == NULL) {
-        status = DSP_EMEMORY ;
-    }
-
-    return status ;
-}
-
-
-/** ============================================================================
- *  @func   FOO_FreeBuffer
- *
- *  @desc   Frees the specified buffer
- *
- *  @modif  None
- *  ============================================================================
- */
-NORMAL_API
-Void
-FOO_FreeBuffer (IN OUT Pvoid * buf)
-{
-    free (*buf) ;
-    *buf = NULL ;
-}
-
-
-/** ============================================================================
- *  @func   FOO_Atoll
- *
- *  @desc   Converts ascii to long int
- *
- *  @modif  None
- *  ============================================================================
- */
-NORMAL_API
-Uint32
-FOO_Atoll (Char8 * str)
-{
-     Uint32 val = 0 ;
-     val = strtoll (str, NULL, 16) ;
-     return val ;
-}
+extern POOL_Obj KM_Pools [] ;
+#endif /* if defined (PCPY_LINK) */
 
 
 #if defined (__cplusplus)
 }
 #endif /* defined (__cplusplus) */
+
+
+#endif /* !defined (SCALE_CONFIG_) */

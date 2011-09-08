@@ -63,7 +63,7 @@ endif # ifeq ($(TI_DSPLINK_USE_CHNL), 1)
 ifeq ($(TI_DSPLINK_USE_MSGQ), 1)
     DIRS += message
     DIRS += readwrite
-    DIRS += foo
+    DIRS += kamy
     ifeq ($(TI_DSPLINK_USE_NOTIFY), 1)
         DIRS += message_multi
     endif # ifeq ($(TI_DSPLINK_USE_NOTIFY), 1)
