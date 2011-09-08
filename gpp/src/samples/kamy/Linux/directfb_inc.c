@@ -39,10 +39,10 @@ int directfb_init(int argc, char *argv[])
     return 23;
 }
 
-int directfb_render(const void *p)
+int directfb_render( unsigned short width, unsigned short height, const void *p )
 {
-    DFBRectangle rect = {0,0,YUVSRC_W,YUVSRC_H};
-    primary->Write(primary,&rect,p,YUVFRAME_Pitch);
+    DFBRectangle rect = {0,0,width,height};
+    primary->Write(primary,&rect,p,width*2);
 //    DFBCHECK (primary->Flip (primary, NULL, DSFLIP_NONE));
     DFBCHECK (primary->Flip (primary, NULL, DSFLIP_WAITFORSYNC));
 
