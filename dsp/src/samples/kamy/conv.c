@@ -42,8 +42,26 @@ void convimg(unsigned char* inImg_ptr, unsigned char* outImg_ptr, uint16 img_wid
 			}
 		}
 	}
-
-	free(inImg_ptr);
+	//This might not be neccesary.
+	//free(inImg_ptr);
 	return;
 }
 
+void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, uint16 img_width, uint16 img_height, unsigned char* kernel_ptr )
+{
+	uint16 col, row;
+	//The two image pointers are switched to make the inpit image blurry.
+	convimg( outImg_ptr, inImg_ptr, img_width, img_height, kernel_ptr);
+	//Since a border is used in convimg will this affect which pixels this filter will use aswell.
+	for (row = KERN_MAX_INDEX; row < (img_height - KERN_MAX_INDEX); row++) {
+		for (col = KERN_MAX_INDEX; col < (img_width - KERN_MAX_INDEX); col++) {
+			// Now a particular pixel is selected
+			if (row > BORDER && row < img_height - BORDER && col > BORDER
+					&& col < img_width - BORDER) {
+				// Subtract the corresponding pixel in input image from the output image.
+				outImg_ptr[row * 2 * img_width + 2 * col] -= inImg_ptr[row * 2 * img_width + 2 * col];
+			}
+		}
+	}
+
+}

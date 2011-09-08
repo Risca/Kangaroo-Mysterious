@@ -33,6 +33,38 @@ typedef short int int16;
  */
 void convimg(unsigned char* inImg_ptr, unsigned char* outImg_ptr, uint16 img_width, uint16 img_height, unsigned char* kernel_ptr);
 
+/** ============================================================================
+ *  @func   unsharpenMask
+ *
+ *  @desc   Filter mask that sharpening by subtracting a blurred image. This 
+ *	    function highly depends on convimg and should have the same 
+ *	    arguments.
+ *	    Note: This version of the function destroys the input image.
+ *
+ *  @arg    inImg_ptr
+ *              Pointer to input image.
+ *  @arg    outImg_ptr
+ *              Pointer to output image.
+ *              in string format.
+ *  @arg    img_width
+ *              Width of the picture in pixels.
+ *  @arg    img_height
+ *              Height of the picture in pixels.
+ *  @arg    kernel_ptr
+ *              Pointer to the kernel.
+ *
+ *  @ret    None
+ *
+ *  @enter  None
+ *
+ *  @leave  None
+ *
+ *  @see    None.
+ *
+ *  @author Daniel Josefsson
+ *  ============================================================================
+ */
+void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, uint16 img_width, uint16 img_height, unsigned char* kernel_ptr );
 
 #ifdef __cplusplus
 }
