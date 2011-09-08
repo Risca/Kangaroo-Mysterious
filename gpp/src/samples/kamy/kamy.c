@@ -79,7 +79,7 @@ extern "C" {
 /** ============================================================================
  *  @name   SampleMessage
  *
- *  @desc   Structure used to pass the scaling factor from the GPP to the DSP.
+ *  @desc   Structure used to pass the picture addresses from the GPP to the DSP.
  *
  *  @field  msgHeader
  *              Required first field of a message.
@@ -89,8 +89,6 @@ extern "C" {
  *              DSP Memory address where GPP writes.
  *  @field  size
  *              Size of data written
- *  @field  scalingFactor
- *              Used to scale the output buffer values.
  *  ============================================================================
  */
 typedef struct SampleMessage_tag {
@@ -98,8 +96,6 @@ typedef struct SampleMessage_tag {
     Uint32         gppWriteAddr  ;
     Uint32         dspWriteAddr  ;
     Uint32         size          ;
-    Uint32         scalingFactor ;
-    Uint32         kamybar        ;
 } SampleMessage ;
 
 
@@ -425,13 +421,9 @@ KM_Execute (IN Uint32  dspAddress,
                                  APP_MSG_SIZE,
                                  (MSGQ_Msg *) &msg) ;
             if (DSP_SUCCEEDED (status)) {
-                /* Set the message id as the scaling factor */
                 msg->gppWriteAddr  = dspAddr1 ;
                 msg->dspWriteAddr  = dspAddr2 ;
                 msg->size          = bufferSize ;
-                msg->scalingFactor = i ;
-		/* Risca added */
-		msg->kamybar        = 42;
 
                 /* Send the message */
                 status = MSGQ_put (DspMsgqNameq, (MSGQ_Msg) msg) ;
