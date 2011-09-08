@@ -42,4 +42,6 @@
 SOURCES :=                  \
            main.c           \
            tskKamy.c   \
-           kamy_config.c
+           kamy_config.c \
+		   conv.c
+
