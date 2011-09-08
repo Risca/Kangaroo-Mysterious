@@ -419,7 +419,7 @@ KM_Execute (IN Uint32  dspAddress,
          */
         ptr8  = (Uint8 *)  (bufOut) ;
         gengrad (width, height, ptr8) ;
-        genbars (width, height, ptr8) ;
+/*        genbars (width, height, ptr8) ; */
 
         /*  Write the data buffer to the DSP side */
         if (DSP_SUCCEEDED (status)) {
