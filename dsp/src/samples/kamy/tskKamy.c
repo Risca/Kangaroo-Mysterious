@@ -105,7 +105,7 @@ Int TSKKM_create(TSKKM_TransferInfo ** infoPtr)
 {
     Int                     status    = SYS_OK ;
     MSGQ_Attrs              msgqAttrs = MSGQ_ATTRS ;
-    TSKKM_TransferInfo *   info      = NULL ;
+    TSKKM_TransferInfo *    info      = NULL ;
     MSGQ_LocateAttrs        syncLocateAttrs ;
 
     /* Allocate TSKKM_TransferInfo structure that will be initialized
@@ -184,9 +184,9 @@ Int TSKKM_execute(TSKKM_TransferInfo * info)
     Int             status    = SYS_OK;
     Char *          readBuf ;
     Char *          writeBuf ;
-    Uint32          scalingFactor ;
+/*    Uint32          scalingFactor ;*/
     Uint32          size ;
-    Uint32          i, j;
+    Uint32          i;
     SampleMessage * msg;
 
     /* Execute the loop for configured number of transfers
@@ -202,14 +202,14 @@ Int TSKKM_execute(TSKKM_TransferInfo * info)
             readBuf       = (Char *) msg->gppWriteAddr ;
             writeBuf      = (Char *) msg->dspWriteAddr ;
             size          = msg->size ;
-            scalingFactor = msg->scalingFactor ;
 
             HAL_cacheInv ((Ptr) readBuf, size) ;
-
+            /* Do DSP stuff here! */
+	    /*
             for (j = 0 ; j < size ; j++) {
                 writeBuf [j] = (Char) (readBuf [j] * scalingFactor) ;
             }
-
+*/
             HAL_cacheWbInv ((Ptr)(msg->dspWriteAddr), size) ;
 
             /* Now send a message to the GPP */

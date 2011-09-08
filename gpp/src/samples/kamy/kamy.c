@@ -450,10 +450,6 @@ KM_Execute (IN Uint32  dspAddress,
         if (DSP_SUCCEEDED (status)) {
             status = MSGQ_get (SampleGppMsgq, WAIT_FOREVER, (MSGQ_Msg *) &msg) ;
             if (DSP_SUCCEEDED (status)) {
-                 /* Risca added */
-/*                if (i==1)*/
-                    KM_1Print ("msg->kamybar == %u\n", msg->kamybar);
-
                 status = MSGQ_free ((MSGQ_Msg) msg) ;
                 if (DSP_FAILED (status)) {
                     KM_1Print ("MSGQ_free failed. Status: [0x%x]\n",

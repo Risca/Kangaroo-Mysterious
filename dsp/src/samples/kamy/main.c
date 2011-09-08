@@ -70,6 +70,21 @@
  */
 #define FILEID             FID_APP_C
 
+/** ============================================================================
+ *  @name   yuvWidth
+ *
+ *  @desc   Width of YUV image to process
+ *  ============================================================================
+ */
+Uint32 yuvWidth ;
+
+/** ============================================================================
+ *  @name   yuvHeight
+ *
+ *  @desc   Height of YUV image to process
+ *  ============================================================================
+ */
+Uint32 yuvHeight ;
 
 /** ============================================================================
  *  @name   numTransfers
@@ -148,6 +163,11 @@ Void main(Int argc, Char *argv[])
 
     /* Get the number of transfers to be done by the application */
     numTransfers = atol (argv[0]) ;
+
+    /* Get width of YUV image */
+    yuvWidth = atol (argv[1]) ;
+    /* Get height of YUV image */
+    yuvHeight = atol (argv[2]) ;
 
     if (status == SYS_OK) {
         /* Creating task for TSKKM application */
