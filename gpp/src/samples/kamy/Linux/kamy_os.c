@@ -86,7 +86,7 @@ KM_OS_init(Void)
  *  @modif	None.
  *  ============================================================================
  */
-void KM_displayFrame(unsigned short width, unsigned short height, unsigned char *image_ptr )
+void KM_displayFrame(Uint32 width, Uint32 height, Uchar8 *image_ptr )
 {
 	(void)width;
 	(void)height;
