@@ -89,6 +89,8 @@ typedef struct TSKKM_TransferInfo_tag {
     SEM_Obj     notifyDspSemObj ;
     Uint32      numTransfers ;
     Uint32      bufferSize ;
+    Uint32      width ;
+    Uint32      height ;
 } TSKKM_TransferInfo ;
 
 

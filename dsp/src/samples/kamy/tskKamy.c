@@ -84,6 +84,22 @@
 extern LOG_Obj trace ;
 
 /** ============================================================================
+ *  @name   yuvWidth
+ *
+ *  @desc   Width of YUV image to process
+ *  ============================================================================
+ */
+extern Uint32 yuvWidth ;
+
+/** ============================================================================
+ *  @name   yuvHeight
+ *
+ *  @desc   Height of YUV image to process
+ *  ============================================================================
+ */
+extern Uint32 yuvHeight ;
+
+/** ============================================================================
  *  @name   numTransfers
  *
  *  @desc   Iterations of data transfer to be done by the application.
@@ -162,6 +178,8 @@ Int TSKKM_create(TSKKM_TransferInfo ** infoPtr)
     if (status == SYS_OK) {
         /* Filling up the transfer info structure */
         info->numTransfers  = numTransfers ;
+	info->width         = yuvWidth ;
+	info->height        = yuvHeight ;
     }
 
     return status ;
