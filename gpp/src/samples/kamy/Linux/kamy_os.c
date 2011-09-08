@@ -86,11 +86,13 @@ KM_OS_init(Void)
  *  @modif	None.
  *  ============================================================================
  */
-void KM_displayFrame(Uint32 width, Uint32 height, Uchar8 *image_ptr )
+NORMAL_API
+DSP_STATUS
+KM_displayFrame( Uint16 width, Uint16 height, Uchar8 *image_ptr )
 {
-	(void)width;
-	(void)height;
-	directfb_render(image_ptr);
+    DSP_STATUS          status = DSP_SOK ;
+   	directfb_render(width, height, image_ptr);
+	return status ;
 }
 
 

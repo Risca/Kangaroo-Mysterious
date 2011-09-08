@@ -5,12 +5,12 @@
 #include <unistd.h>
 #include <directfb.h>
 
-#define YUVSRC_W 320
-#define YUVSRC_H 240
+//#define YUVSRC_W 320
+//#define YUVSRC_H 240
 
-#define YUVFRAME_BYTESPerPixel 2
-#define YUVFRAME_SIZE (YUVSRC_W * YUVSRC_H)
-#define YUVFRAME_Pitch (YUVSRC_W * YUVFRAME_BYTESPerPixel)
+//#define YUVFRAME_BYTESPerPixel 2
+//#define YUVFRAME_SIZE (YUVSRC_W * YUVSRC_H)
+//#define YUVFRAME_Pitch (YUVSRC_W * YUVFRAME_BYTESPerPixel)
 
 #define DFBCHECK(x...)                                             \
 {                                                                  \
@@ -24,7 +24,7 @@
 }
 
 int directfb_init(int argc, char *argv[]);
-int directfb_render(const void *p);
+int directfb_render( unsigned short width, unsigned short height, const void *p );
 int directfb_release();
 
 #endif // DIRECTFB_INC_H
