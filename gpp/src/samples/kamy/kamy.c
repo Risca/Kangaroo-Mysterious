@@ -369,7 +369,6 @@ KM_Execute (IN Uint32  dspAddress,
     Uint32 *        bufIn    = NULL ;
     Uint32 *        bufOut   = NULL ;
     Uint8 *         ptr8     = NULL ;
-    Uint8 *         ptr8_1   = NULL ;
     Uint8           processorId = 0 ;
     Uint32          bufferSize  = 2*width*height*sizeof(unsigned char);
     Uint32          dspAddr1    = dspAddress ;
@@ -484,7 +483,7 @@ KM_Execute (IN Uint32  dspAddress,
         /* Render the convoluted image */
         if (DSP_SUCCEEDED (status)) {
             ptr8    = (Uint8 *)  bufIn ;
-            KM_displayFrame (info->width, info->height, ptr8) ;
+            KM_displayFrame (width, height, ptr8) ;
         }
     }
 
