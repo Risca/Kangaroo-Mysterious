@@ -1,13 +1,13 @@
 Mapparna dsp och gpp hör hemma i $DSPLINK/. De har samma trädstruktur för
 att det ska vara enkelt att veta var man ska placera filerna. Man kan göra det
 hela mycket enkelt för sig genom att gör symboliska länkar i $DSPLINK:
-ln -sv /path/to/Kangaroo-Mysterious/gpp/src/samples/foo \
+ln -sv /path/to/Kangaroo-Mysterious/gpp/src/samples/kamy \
    $DSPLINK/gpp/src/samples/
-ln -sv /path/to/Kangaroo-Mysterious/dsp/src/samples/foo \
+ln -sv /path/to/Kangaroo-Mysterious/dsp/src/samples/kamy \
    $DSPLINK/dsp/src/samples/
 
 och sen bara kopiera över DIRS-filerna, eller köra detta kommando i $DSPLINK:
-sed -i s:"DIRS += readwrite":"DIRS += readwrite\n    DIRS += foo":g \
+sed -i s:"DIRS += readwrite":"DIRS += readwrite\n    DIRS += kamy":g \
     {gpp,dsp}/src/samples/DIRS
 
 Då ska man kunna köra 'make -s clean && make -s debug && make -s release' i
