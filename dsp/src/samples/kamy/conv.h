@@ -27,10 +27,12 @@ typedef short int int16;
 
 
 // Function prototypes
+
+
 void conv_helloWorld();
 
 /*
- * Convolves an image with a filter kernel. Currently only returns the image unchanged
+ * Convolves an image with a filter kernel. Currently blurs the image.
  */
 
 unsigned char* convimg( unsigned char* image_ptr, unsigned char* kernel_ptr);
@@ -40,6 +42,11 @@ unsigned char* convimg( unsigned char* image_ptr, unsigned char* kernel_ptr);
  * memory when you are done with it.
  */
 unsigned char* gengrad( uint16 width, uint16 height );
+
+/*
+ * Generates a YUV:422 image with black and white bars. Remember to free the image
+ * memory when you are done with it.
+ */
 unsigned char* genbars( uint16 width, uint16 height );
 
 
