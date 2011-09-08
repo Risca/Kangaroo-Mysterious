@@ -481,25 +481,10 @@ KM_Execute (IN Uint32  dspAddress,
             KM_1Print ("PROC_write Failed. Status: [0x%x]\n", status) ;
         }
 
-        /* Verify the data read back */
+        /* Render the convoluted image */
         if (DSP_SUCCEEDED (status)) {
             ptr8    = (Uint8 *)  bufIn ;
-            ptr8_1  = (Uint8 *)  bufOut ;
-            for (j = 0 ;
-                 (j < bufferSize) && DSP_SUCCEEDED (status);
-                 j++) {
-                if (ptr8 [j] != (Uint8) (ptr8_1 [j] * i)) {
-                    KM_1Print ("Data mismatch at [0x%x]\n", j) ;
-                    KM_1Print ("  Expected [0x%x]\n", (ptr8_1 [j] * i)) ;
-                    KM_1Print ("  Received [0x%x]\n", ptr8 [j]) ;
-                    status = DSP_EFAIL ;
-                }
-            }
-
-            if ((i % 100) == 0) {
-                KM_1Print ("Verified %5d Iterations of "
-                             "Correct Data Read/ Write\n", i) ;
-            }
+            KM_displayFrame (info->width, info->height, ptr8) ;
         }
     }
 
