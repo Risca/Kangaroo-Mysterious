@@ -31,7 +31,7 @@ void gengrad( uint16 width, uint16 height, unsigned char *imgptr )
 			*imgptr_cpy++ = 128; // Cb
 		}
 	}
-	return imgptr;
+	return;
 }
 
 void genbars( uint16 width, uint16 height, unsigned char *imgptr )
@@ -63,5 +63,5 @@ void genbars( uint16 width, uint16 height, unsigned char *imgptr )
 			*imgptr_cpy++ = 128; // Cb
 		}
 	}
-	return imgptr;
+	return;
 }
