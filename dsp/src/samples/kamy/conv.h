@@ -28,13 +28,9 @@ typedef short int int16;
 
 // Function prototypes
 
-
-void conv_helloWorld();
-
 /*
  * Convolves an image with a filter kernel. Currently blurs the image.
  */
-
 unsigned char* convimg( unsigned char* image_ptr, unsigned char* kernel_ptr);
 
 /*
