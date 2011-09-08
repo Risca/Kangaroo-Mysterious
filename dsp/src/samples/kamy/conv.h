@@ -18,8 +18,8 @@ typedef unsigned int uint32;
 typedef unsigned short int uint16;
 typedef short int int16;
 
-#define IMG_WIDTH 	640
-#define IMG_HEIGHT 	480
+//#define IMG_WIDTH 	640
+//#define IMG_HEIGHT 	480
 
 #define KERNEL_SIZE	5
 #define KERN_MAX_INDEX (KERNEL_SIZE-1)/2
@@ -31,19 +31,7 @@ typedef short int int16;
 /*
  * Convolves an image with a filter kernel. Currently blurs the image.
  */
-unsigned char* convimg( unsigned char* image_ptr, unsigned char* kernel_ptr);
-
-/*
- * Generates a YUV:422 image with black and white color gradients. Remember to free the image
- * memory when you are done with it.
- */
-unsigned char* gengrad( uint16 width, uint16 height );
-
-/*
- * Generates a YUV:422 image with black and white bars. Remember to free the image
- * memory when you are done with it.
- */
-unsigned char* genbars( uint16 width, uint16 height );
+void convimg(unsigned char* inImg_ptr, unsigned char* outImg_ptr, uint16 img_width, uint16 img_height, unsigned char* kernel_ptr);
 
 
 #ifdef __cplusplus
