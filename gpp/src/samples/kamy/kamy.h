@@ -248,6 +248,17 @@ NORMAL_API
 Uint32
 KM_Atoll (Char8 * str) ;
 
+/** ============================================================================
+ *  @func   KM_Itoa
+ *
+ *  @desc   Converts int to ASCII
+ *
+ *  @modif  None
+ *  ============================================================================
+ */
+NORMAL_API
+void
+KM_ItoA (Char8 * str, int i) ;
 
 #if defined (__cplusplus)
 }

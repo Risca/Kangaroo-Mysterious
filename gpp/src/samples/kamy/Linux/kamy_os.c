@@ -202,6 +202,20 @@ KM_Atoll (Char8 * str)
      return val ;
 }
 
+/** ============================================================================
+ *  @func   KM_Itoa
+ *
+ *  @desc   Converts int to ASCII
+ *
+ *  @modif  None
+ *  ============================================================================
+ */
+NORMAL_API
+void
+KM_ItoA (Char8 * str, int i)
+{
+    sprintf(str,"%d",i);
+}
 
 #if defined (__cplusplus)
 }

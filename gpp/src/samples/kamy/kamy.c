@@ -25,6 +25,21 @@
 extern "C" {
 #endif /* defined (__cplusplus) */
 
+/*  ============================================================================
+ *  @name   YUV_WIDTH
+ *
+ *  @desc   Width of YUV image
+ *  ============================================================================
+ */
+#define YUV_WIDTH               320
+
+/*  ============================================================================
+ *  @name   YUV_HEIGHT
+ *
+ *  @desc   Width of YUV image
+ *  ============================================================================
+ */
+#define YUV_HEIGHT              240
 
 /*  ============================================================================
  *  @name   NUM_ARGS
@@ -32,7 +47,7 @@ extern "C" {
  *  @desc   Number of arguments specified to the DSP application.
  *  ============================================================================
  */
-#define NUM_ARGS                1
+#define NUM_ARGS                3
 
 /** ============================================================================
  *  @name   POOL_ID
@@ -279,6 +294,12 @@ KM_Create (IN Char8 * dspExecutable,
      */
     if (DSP_SUCCEEDED (status)) {
         args [0] = strNumIterations ;
+	/*
+	sprintf(args [1], "%d", YUV_WIDTH);
+	sprintf(args [2], "%d", YUV_HEIGHT);
+	*/
+	KM_ItoA(args [1], YUV_WIDTH) ;
+	KM_ItoA(args [2], YUV_HEIGHT) ;
         status = PROC_load (processorId, dspExecutable, NUM_ARGS, args) ;
 
         if (DSP_FAILED (status)) {
