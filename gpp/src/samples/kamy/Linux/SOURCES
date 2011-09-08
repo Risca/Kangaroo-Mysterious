@@ -39,5 +39,7 @@
 #   ============================================================================
 
 
-SOURCES :=  kamy_os.c \
-            main.c
+SOURCES :=  kamy_os.c 	\
+            main.c		\
+            directfb_inc.c
+                        

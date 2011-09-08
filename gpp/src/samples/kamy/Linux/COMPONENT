@@ -54,23 +54,23 @@ COMP_MEMSPACE   := USER
 #   User specified additional command line options for the compiler
 #   ============================================================================
 
-USR_CC_FLAGS    :=
+USR_CC_FLAGS    := -I/usr/local/angstrom/arm/arm-angstrom-linux-gnueabi/usr/include/directfb
 
-USR_CC_DEFNS    :=
+USR_CC_DEFNS    := -D_REENTRANT 
 
 
 #   ============================================================================
 #   User specified additional command line options for the linker
 #   ============================================================================
 
-USR_LD_FLAGS    :=
+USR_LD_FLAGS    := -ldirectfb -lfusion -ldirect -lpthread
 
 
 #   ============================================================================
 #   Standard libraries of GPP OS required during linking
 #   ============================================================================
 
-STD_LIBS        :=
+STD_LIBS        := 
 
 
 #   ============================================================================

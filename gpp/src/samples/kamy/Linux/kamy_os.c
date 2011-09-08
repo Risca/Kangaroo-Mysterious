@@ -51,6 +51,7 @@
 
 /*  ----------------------------------- Application Header            */
 #include <kamy.h>
+#include "directfb_inc.h"
 
 
 #if defined (__cplusplus)
@@ -72,7 +73,24 @@ KM_OS_init(Void)
 {
     DSP_STATUS          status = DSP_SOK ;
 
+    // Init direct FB
+    directfb_init(0, NULL);
     return status ;
+}
+
+/** ============================================================================
+ *  @func	KM_displayFrame
+ *
+ *  @desc	Shows a YUV:422 image on the screen
+ *
+ *  @modif	None.
+ *  ============================================================================
+ */
+void KM_displayFrame(unsigned short width, unsigned short height, unsigned char *image_ptr )
+{
+	(void)width;
+	(void)height;
+	directfb_render(image_ptr);
 }
 
 
