@@ -17,9 +17,11 @@
 #include <pool.h>
 
 
-/*  ----------------------------------- APP HEADER                       */
+/*  ----------------------------------- APP HEADER                      */
 #include <kamy.h>
 
+/*  ----------------------------------- IMAGE GEN HEADER                */
+#include <conv.h>
 
 #if defined (__cplusplus)
 extern "C" {
@@ -225,13 +227,14 @@ STATIC SMAPOOL_Attrs SamplePoolAttrs =
 NORMAL_API
 DSP_STATUS
 KM_Create (IN Char8 * dspExecutable,
-             IN Char8 * strBufferSize,
-             IN Char8 * strNumIterations,
-             IN Uint8   processorId)
+             IN Char8 * strWidth,
+             IN Char8 * strHeight,
+             IN Char8 * strNumIterations)
 {
     DSP_STATUS       status   = DSP_SOK   ;
     Char8 *          args [NUM_ARGS]      ;
     MSGQ_LocateAttrs syncLocateAttrs      ;
+    Uint8 processorId         = 0         ;
 
     KM_0Print ("Entered KM_Create ()\n") ;
 
@@ -290,12 +293,8 @@ KM_Create (IN Char8 * dspExecutable,
      */
     if (DSP_SUCCEEDED (status)) {
         args [0] = strNumIterations ;
-	/*
-	sprintf(args [1], "%d", YUV_WIDTH);
-	sprintf(args [2], "%d", YUV_HEIGHT);
-	*/
-	KM_ItoA(args [1], YUV_WIDTH) ;
-	KM_ItoA(args [2], YUV_HEIGHT) ;
+        args [1] = strWidth ;
+		args [2] = strHeight ;
         status = PROC_load (processorId, dspExecutable, NUM_ARGS, args) ;
 
         if (DSP_FAILED (status)) {
@@ -362,17 +361,19 @@ KM_Create (IN Char8 * dspExecutable,
 NORMAL_API
 DSP_STATUS
 KM_Execute (IN Uint32  dspAddress,
-              IN Uint32  bufferSize,
-              IN Uint32  numIterations,
-              IN Uint8   processorId)
+              IN Uint32  width,
+              IN Uint32  height,
+              IN Uint32  numIterations)
 {
     DSP_STATUS      status   = DSP_SOK ;
     Uint32 *        bufIn    = NULL ;
     Uint32 *        bufOut   = NULL ;
     Uint8 *         ptr8     = NULL ;
     Uint8 *         ptr8_1   = NULL ;
-    Uint32          dspAddr1 = dspAddress ;
-    Uint32          dspAddr2 = (dspAddress + bufferSize) ;
+    Uint8           processorId = 0 ;
+    Uint32          bufferSize  = 2*width*height*sizeof(unsigned char);
+    Uint32          dspAddr1    = dspAddress ;
+    Uint32          dspAddr2    = (dspAddress + bufferSize) ;
     SampleMessage * msg ;
     Uint32          i, j ;
 
@@ -401,7 +402,7 @@ KM_Execute (IN Uint32  dspAddress,
         for (j = 0 ;
              DSP_SUCCEEDED (status) && (j < bufferSize) ;
              j++)
-	{
+        {
             *ptr8 = 0 ;
             ptr8++ ;
         }
@@ -415,17 +416,11 @@ KM_Execute (IN Uint32  dspAddress,
         }
 
         /*  Prime the data buffer for the sample application
-         *  - Initialize the buffer to '1's. This value is multiplied
-         *    by the DSP with the iteration number
+         *  - Initialize the buffer to a sample image
          */
         ptr8  = (Uint8 *)  (bufOut) ;
-        for (j = 0 ;
-             DSP_SUCCEEDED (status) && (j < bufferSize) ;
-             j++)
-	{
-            *ptr8  = 0x1 ;
-            ptr8++ ;
-        }
+        gengrad (width, height, ptr8) ;
+        genbars (width, height, ptr8) ;
 
         /*  Write the data buffer to the DSP side */
         if (DSP_SUCCEEDED (status)) {
@@ -628,50 +623,52 @@ Void
 KM_Main (IN Char8 * dspExecutable,
            IN Char8 * strDspAddress,
            IN Uint32  dspAddress,
-           IN Char8 * strBufferSize,
-           IN Uint32  bufferSize,
+           IN Char8 * strWidth,
+           IN Uint32  width,
+		   IN Char8 * strHeight,
+		   IN Uint32  height,
            IN Char8 * strNumIterations,
-           IN Uint32  numIterations,
-           IN Uint8   processorId)
+           IN Uint32  numIterations)
 {
     DSP_STATUS status = DSP_SOK ;
 
-    KM_0Print ("============= Sample Application : READWRITE ==========\n") ;
+    KM_0Print ("=============== Sample Application : KAMY =============\n") ;
 
     if (   (dspExecutable != NULL)
-        && (strBufferSize != NULL)
+        && (strWidth != NULL)
+        && (strHeight != NULL)
         && (strNumIterations != NULL)) {
         if (   (numIterations >  0xFFFF)
-            || (bufferSize == 0)
-            || (processorId >= MAX_DSPS)) {
+            || (width == 0)
+			|| (height == 0)) {
             status = DSP_EINVALIDARG ;
             KM_1Print ("ERROR! Invalid arguments specified for  "
                          "kamy application.\n"
                          "     Max iterations = %d\n",
                          0xFFFF) ;
-            KM_1Print ("     Buffer size    = %d\n",
-                         bufferSize) ;
-            KM_1Print ("     DSP processorId    = %d\n",
-                         processorId) ;
+            KM_1Print ("     Width  = %d\n",
+                         width) ;
+            KM_1Print ("     Height = %d\n",
+                         height) ;
         }
         else {
             /*
-             *  Specify the dsp executable file name and the buffer size for
-             *  loop creation phase.
+             *  Specify the dsp executable file name, width, height
+             *  and number of iterations (args).
              */
             status = KM_Create (dspExecutable,
-                                  strBufferSize,
-                                  strNumIterations,
-                                  processorId) ;
+                                  strWidth,
+                                  strHeight,
+                                  strNumIterations) ;
 
             /*
              *  Execute the data transfer loop.
              */
             if (DSP_SUCCEEDED (status)) {
                 status = KM_Execute (dspAddress,
-                                       bufferSize,
-                                       numIterations,
-                                       processorId) ;
+                                       width,
+                                       height,
+                                       numIterations) ;
                 if (DSP_FAILED (status)) {
                     KM_1Print ("Execute phase failed. Status: [0x%x]\n",
                                  status) ;
@@ -684,7 +681,7 @@ KM_Main (IN Char8 * dspExecutable,
             /*
              *  Perform cleanup operation.
              */
-            KM_Delete (processorId) ;
+            KM_Delete (0) ;
         }
     }
     else {

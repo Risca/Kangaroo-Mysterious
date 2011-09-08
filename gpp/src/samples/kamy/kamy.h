@@ -32,18 +32,20 @@ extern "C" {
  *  @arg    dspAddress
  *              DSP address to be used for the PROC_read () and PROC_write APIs
  *              in numeric format.
- *  @arg    strBufferSize
- *              Buffer size to be used for data-transfer in string format.
- *  @arg    bufferSize
- *              Buffer size to be used for data-transfer in numeric format.
+ *  @arg    strWidth
+ *              Width of image in string format.
+ *  @arg    width
+ *              Width of image in numeric format.
+ *  @arg    strHeight
+ *              Height of image in string format.
+ *  @arg    height
+ *              Height of image in numeric format.
  *  @arg    strNumIterations
  *              Number of iterations a data buffer is transferred between
  *              GPP and DSP in string format.
  *  @arg    numIterations
  *              Number of iterations a data buffer is transferred between
  *              GPP and DSP in numeric format.
- *  @arg    processorId
- *             Id of the DSP Processor. 
  *
  *  @ret    None
  *
@@ -59,11 +61,13 @@ Void
 KM_Main (IN Char8 * dspExecutable,
            IN Char8 * strDspAddress,
            IN Uint32  dspAddress,
-           IN Char8 * strBufferSize,
-           IN Uint32  bufferSize,
+           IN Char8 * strWidth,
+           IN Uint32  width,
+           IN Char8 * strHeight,
+           IN Uint32  height,
            IN Char8 * strNumIterations,
-           IN Uint32  numIterations,
-           IN Uint8   processorId) ;
+           IN Uint32  numIterations) ;
+
 
 /** ============================================================================
  *  @func   KM_0Print
