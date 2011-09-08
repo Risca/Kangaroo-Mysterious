@@ -75,7 +75,6 @@ int main (int argc, char ** argv)
 	Uint32  height           = 0 ;
     Uint32  numIterations    = 0 ;
     Char8 * pEnd             = NULL ;
-    Char8 c                  = 0 ;
 
     if (argc != 6 ) {
         printf ("Usage : %s <absolute path of DSP executable> "
@@ -104,10 +103,6 @@ int main (int argc, char ** argv)
 				strNumIterations,
 				numIterations) ;
     }
-    printf("Press enter to exit\n");
-    c = getchar();
-    while (c != '\n')
-            c = getchar();
 
     return 0 ;
 }
