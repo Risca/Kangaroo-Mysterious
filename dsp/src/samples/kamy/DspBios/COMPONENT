@@ -1,7 +1,7 @@
 #   ============================================================================
 #   @file   COMPONENT
 #
-#   @path   $(DSPLINK)/gpp/src/samples/foo/Linux/
+#   @path   $(DSPLINK)/dsp/src/samples/kamy/DspBios/
 #
 #   @desc   This file contains information to build a component.
 #
@@ -43,11 +43,17 @@
 #   Generic information about the component
 #   ============================================================================
 
-COMP_NAME       := FOO
-COMP_PATH       := $(TI_DSPLINK_GPPROOT)$(DIRSEP)src$(DIRSEP)samples$(DIRSEP)foo
+COMP_NAME       := KM
+COMP_PATH       := $(TI_DSPLINK_DSPROOT)$(DIRSEP)src$(DIRSEP)samples$(DIRSEP)kamy
 COMP_TYPE       := EXE
-COMP_TARGET     := foogpp
-COMP_MEMSPACE   := USER
+COMP_TARGET     := kamy.out
+
+
+#   ============================================================================
+#   MAP file name
+#   ============================================================================
+
+COMP_MAP_FILE   := kamy.map
 
 
 #   ============================================================================
@@ -58,12 +64,26 @@ USR_CC_FLAGS    :=
 
 USR_CC_DEFNS    :=
 
+ifeq ($(TI_DSPLINK_PLATFORM), Davinci)
+USR_CC_DEFNS    += -DDAVINCI
+endif # ifeq ($(TI_DSPLINK_PLATFORM), Davinci)
+
 
 #   ============================================================================
 #   User specified additional command line options for the linker
 #   ============================================================================
 
+ifeq ("$(TI_DSPLINK_DSPOSVERSION)", "5.XX")
 USR_LD_FLAGS    :=
+endif
+ifeq ("$(TI_DSPLINK_DSPOSVERSION)", "6.XX")
+USR_LD_FLAGS    := $(BASE_CGTOOLSLIB)$(DIRSEP)rts64plus.lib
+endif
+ifeq ("$(TI_DSPLINK_DSPDEVICE)", "DA8XXGEM")
+USR_LD_FLAGS    := $(BASE_CGTOOLSLIB)$(DIRSEP)rts6740.lib
+endif
+
+
 
 
 #   ============================================================================
@@ -79,10 +99,37 @@ STD_LIBS        :=
 
 USR_LIBS        := dsplink.lib
 
+ifeq ($(TI_DSPLINK_USE_POOL), 1)
+USR_LIBS        += dsplinkpool.lib
+endif # ifeq ($(TI_DSPLINK_USE_POOL), 1)
+
+ifeq ($(TI_DSPLINK_USE_MPCS), 1)
+USR_LIBS        += dsplinkmpcs.lib
+endif # ifeq ($(TI_DSPLINK_USE_MPCS), 1)
+
+ifeq ($(TI_DSPLINK_USE_MPLIST), 1)
+USR_LIBS        += dsplinkmplist.lib
+endif # ifeq ($(TI_DSPLINK_USE_MPLIST), 1)
+
+ifeq ($(TI_DSPLINK_USE_MSGQ), 1)
+USR_LIBS        += dsplinkmsg.lib
+endif # ifeq ($(TI_DSPLINK_USE_MSGQ), 1)
+
+ifeq ($(TI_DSPLINK_USE_CHNL), 1)
+USR_LIBS        += dsplinkdata.lib
+endif # ifeq ($(TI_DSPLINK_USE_CHNL), 1)
+
+ifeq ($(TI_DSPLINK_USE_NOTIFY), 1)
+USR_LIBS        += dsplinknotify.lib
+endif # ifeq ($(TI_DSPLINK_USE_NOTIFY), 1)
+
+ifeq ($(TI_DSPLINK_USE_RINGIO), 1)
+USR_LIBS        += dsplinkringio.lib
+endif # ifeq ($(TI_DSPLINK_USE_RINGIO), 1)
+
 
 #   ============================================================================
 #   Target file(s) exported from this module
 #   ============================================================================
 
-EXP_TARGETS     := foogpp
-
+EXP_TARGETS     := kamy.out

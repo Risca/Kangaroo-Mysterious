@@ -1,9 +1,9 @@
 /** ============================================================================
  *  @file   main.c
  *
- *  @path   $(DSPLINK)/dsp/src/samples/foo/
+ *  @path   $(DSPLINK)/dsp/src/samples/kamy/
  *
- *  @desc   Main function that calls SWI or TSK foo applications based
+ *  @desc   Main function that calls SWI or TSK kamy applications based
  *          on the parameter TSK_MODE.
  *
  *  @ver    1.65.00.03
@@ -57,9 +57,9 @@
 #include <failure.h>
 
 /*  ----------------------------------- Sample Headers              */
-#include <foo.h>
-#include <tskFoo.h>
-#include <foo_config.h>
+#include <kamy.h>
+#include <tskKamy.h>
+#include <kamy_config.h>
 
 
 /** ============================================================================
@@ -111,9 +111,9 @@ extern long atol(const char *str);
 
 
 /** ----------------------------------------------------------------------------
- *  @func   tskFoo
+ *  @func   tskKamy
  *
- *  @desc   Task for TSK based TSKFOO application.
+ *  @desc   Task for TSK based TSKKM application.
  *
  *  @arg    None
  *
@@ -126,7 +126,7 @@ extern long atol(const char *str);
  *  @see    None
  *  ----------------------------------------------------------------------------
  */
-static Int tskFoo ();
+static Int tskKamy ();
 
 
 /** ============================================================================
@@ -140,8 +140,8 @@ static Int tskFoo ();
 Void main(Int argc, Char *argv[])
 {
     Int            status = SYS_OK ;
-    /* TSK based foo application */
-    TSK_Handle     tskFooTask ;
+    /* TSK based kamy application */
+    TSK_Handle     tskKamyTask ;
 
     /* Initialize DSP/BIOS LINK. */
     DSPLINK_init () ;
@@ -150,15 +150,15 @@ Void main(Int argc, Char *argv[])
     numTransfers = atol (argv[0]) ;
 
     if (status == SYS_OK) {
-        /* Creating task for TSKFOO application */
-        tskFooTask = TSK_create(tskFoo, NULL, 0);
-        if (tskFooTask != NULL) {
-            LOG_printf(&trace, "Create TSKFOO: Success\n");
+        /* Creating task for TSKKM application */
+        tskKamyTask = TSK_create(tskKamy, NULL, 0);
+        if (tskKamyTask != NULL) {
+            LOG_printf(&trace, "Create TSKKM: Success\n");
         }
         else {
             status = SYS_EALLOC ;
             SET_FAILURE_REASON (status) ;
-            LOG_printf(&trace, "Create TSKFOO: Failed.\n");
+            LOG_printf(&trace, "Create TSKKM: Failed.\n");
             return;
         }
     }
@@ -168,31 +168,31 @@ Void main(Int argc, Char *argv[])
 
 
 /** ----------------------------------------------------------------------------
- *  @func   tskFoo
+ *  @func   tskKamy
  *
- *  @desc   Task for TSK based TSKFOO application.
+ *  @desc   Task for TSK based TSKKM application.
  *
  *  @modif  None
  *  ----------------------------------------------------------------------------
  */
-static Int tskFoo()
+static Int tskKamy()
 {
     Int                     status = SYS_OK;
-    TSKFOO_TransferInfo * info;
+    TSKKM_TransferInfo * info;
 
     /* Create Phase */
-    status = TSKFOO_create (&info);
+    status = TSKKM_create (&info);
 
     /* Execute Phase */
     if (status == SYS_OK) {
-        status = TSKFOO_execute (info);
+        status = TSKKM_execute (info);
         if (status != SYS_OK) {
             SET_FAILURE_REASON(status);
         }
     }
 
     /* Delete Phase */
-    status = TSKFOO_delete (info);
+    status = TSKKM_delete (info);
     if (status != SYS_OK) {
         SET_FAILURE_REASON(status);
     }

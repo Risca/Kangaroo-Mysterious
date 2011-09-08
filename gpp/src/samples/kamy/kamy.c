@@ -1,7 +1,7 @@
 /** ============================================================================
- *  @file   foo.c
+ *  @file   kamy.c
  *
- *  @path   $(DSPLINK)/gpp/src/samples/foo/
+ *  @path   $(DSPLINK)/gpp/src/samples/kamy/
  *
  *  @desc   No description yet
  *
@@ -18,7 +18,7 @@
 
 
 /*  ----------------------------------- APP HEADER                       */
-#include <foo.h>
+#include <kamy.h>
 
 
 #if defined (__cplusplus)
@@ -99,7 +99,7 @@ typedef struct SampleMessage_tag {
     Uint32         dspWriteAddr  ;
     Uint32         size          ;
     Uint32         scalingFactor ;
-    Uint32         foobar        ;
+    Uint32         kamybar        ;
 } SampleMessage ;
 
 
@@ -203,17 +203,17 @@ STATIC SMAPOOL_Attrs SamplePoolAttrs =
 
 
 /** ============================================================================
- *  @func   FOO_Create
+ *  @func   KM_Create
  *
  *  @desc   This function allocates and initializes resources used by
  *          this application.
  *
- *  @modif  FOO_Buffers
+ *  @modif  KM_Buffers
  *  ============================================================================
  */
 NORMAL_API
 DSP_STATUS
-FOO_Create (IN Char8 * dspExecutable,
+KM_Create (IN Char8 * dspExecutable,
              IN Char8 * strBufferSize,
              IN Char8 * strNumIterations,
              IN Uint8   processorId)
@@ -222,13 +222,13 @@ FOO_Create (IN Char8 * dspExecutable,
     Char8 *          args [NUM_ARGS]      ;
     MSGQ_LocateAttrs syncLocateAttrs      ;
 
-    FOO_0Print ("Entered FOO_Create ()\n") ;
+    KM_0Print ("Entered KM_Create ()\n") ;
 
 
     /*
      *  OS initialization
      */
-    status = FOO_OS_init () ;
+    status = KM_OS_init () ;
 
     /*
      *  Create and initialize the proc object.
@@ -244,11 +244,11 @@ FOO_Create (IN Char8 * dspExecutable,
     if (DSP_SUCCEEDED (status)) {
         status = PROC_attach (processorId, NULL) ;
         if (DSP_FAILED (status)) {
-            FOO_1Print ("PROC_attach failed. Status: [0x%x]\n", status) ;
+            KM_1Print ("PROC_attach failed. Status: [0x%x]\n", status) ;
         }
     }
     else {
-        FOO_1Print ("PROC_setup failed. Status: [0x%x]\n", status) ;
+        KM_1Print ("PROC_setup failed. Status: [0x%x]\n", status) ;
     }
 
     /*
@@ -259,7 +259,7 @@ FOO_Create (IN Char8 * dspExecutable,
                             POOL_makePoolId(processorId, POOL_ID),
                             &SamplePoolAttrs) ;
         if (DSP_FAILED (status)) {
-            FOO_1Print ("POOL_open () failed. Status: [0x%x]\n", status) ;
+            KM_1Print ("POOL_open () failed. Status: [0x%x]\n", status) ;
         }
     }
 
@@ -269,7 +269,7 @@ FOO_Create (IN Char8 * dspExecutable,
     if (DSP_SUCCEEDED (status)) {
         status = MSGQ_open (SampleGppMsgqName, &SampleGppMsgq, NULL) ;
         if (DSP_FAILED (status)) {
-            FOO_1Print ("MSGQ_open () failed. Status: [0x%x]\n",
+            KM_1Print ("MSGQ_open () failed. Status: [0x%x]\n",
                             status) ;
         }
     }
@@ -282,7 +282,7 @@ FOO_Create (IN Char8 * dspExecutable,
         status = PROC_load (processorId, dspExecutable, NUM_ARGS, args) ;
 
         if (DSP_FAILED (status)) {
-            FOO_1Print ("PROC_load failed. Status: [0x%x]\n", status) ;
+            KM_1Print ("PROC_load failed. Status: [0x%x]\n", status) ;
         }
     }
 
@@ -292,7 +292,7 @@ FOO_Create (IN Char8 * dspExecutable,
     if (DSP_SUCCEEDED (status)) {
         status = PROC_start (processorId) ;
         if (DSP_FAILED (status)) {
-            FOO_1Print ("PROC_start failed. Status: [0x%x]\n", status) ;
+            KM_1Print ("PROC_start failed. Status: [0x%x]\n", status) ;
         }
     }
 
@@ -303,7 +303,7 @@ FOO_Create (IN Char8 * dspExecutable,
         mqtAttrs.poolId = POOL_makePoolId(processorId, POOL_ID) ;
         status = MSGQ_transportOpen (processorId, &mqtAttrs) ;
         if (DSP_FAILED (status)) {
-            FOO_1Print ("MSGQ_transportOpen () failed. Status: [0x%x]\n",
+            KM_1Print ("MSGQ_transportOpen () failed. Status: [0x%x]\n",
                             status) ;
         }
     }
@@ -319,23 +319,23 @@ FOO_Create (IN Char8 * dspExecutable,
                                   &DspMsgqNameq,
                                   &syncLocateAttrs) ;
             if ((status == DSP_ENOTFOUND) || (status == DSP_ENOTREADY)) {
-                FOO_Sleep (100000) ;
+                KM_Sleep (100000) ;
             }
             else if (DSP_FAILED (status)) {
-                FOO_1Print ("MSGQ_locate () failed. Status = [0x%x]\n",
+                KM_1Print ("MSGQ_locate () failed. Status = [0x%x]\n",
                                 status) ;
             }
         }
     }
 
-    FOO_0Print ("Leaving FOO_Create ()\n") ;
+    KM_0Print ("Leaving KM_Create ()\n") ;
 
     return status ;
 }
 
 
 /** ============================================================================
- *  @func   FOO_Execute
+ *  @func   KM_Execute
  *
  *  @desc   This function implements the execute phase for this application.
  *
@@ -344,7 +344,7 @@ FOO_Create (IN Char8 * dspExecutable,
  */
 NORMAL_API
 DSP_STATUS
-FOO_Execute (IN Uint32  dspAddress,
+KM_Execute (IN Uint32  dspAddress,
               IN Uint32  bufferSize,
               IN Uint32  numIterations,
               IN Uint8   processorId)
@@ -359,18 +359,18 @@ FOO_Execute (IN Uint32  dspAddress,
     SampleMessage * msg ;
     Uint32          i, j ;
 
-    FOO_0Print ("Entered FOO_Execute ()\n") ;
+    KM_0Print ("Entered KM_Execute ()\n") ;
 
-    status = FOO_AllocateBuffer (bufferSize, (Pvoid *) &bufIn) ;
+    status = KM_AllocateBuffer (bufferSize, (Pvoid *) &bufIn) ;
     if (DSP_SUCCEEDED (status)) {
-        status = FOO_AllocateBuffer (bufferSize, (Pvoid *) &bufOut) ;
+        status = KM_AllocateBuffer (bufferSize, (Pvoid *) &bufOut) ;
         if (DSP_FAILED (status)) {
-            FOO_1Print ("Buffer Allocation Failed. Status: [0x%x]\n",
+            KM_1Print ("Buffer Allocation Failed. Status: [0x%x]\n",
                               status) ;
         }
     }
     else {
-       FOO_1Print ("Buffer Allocation Failed. Status: [0x%x]\n", status) ;
+       KM_1Print ("Buffer Allocation Failed. Status: [0x%x]\n", status) ;
     }
 
     for (i = 1 ;
@@ -392,7 +392,7 @@ FOO_Execute (IN Uint32  dspAddress,
         if (DSP_SUCCEEDED (status)) {
             status = PROC_write (processorId, dspAddr2, bufferSize, bufIn) ;
             if (DSP_FAILED (status)) {
-                FOO_1Print ("PROC_write Failed. Status: [0x%x]\n",
+                KM_1Print ("PROC_write Failed. Status: [0x%x]\n",
                                   status) ;
             }
         }
@@ -414,7 +414,7 @@ FOO_Execute (IN Uint32  dspAddress,
         if (DSP_SUCCEEDED (status)) {
             status = PROC_write (processorId, dspAddr1, bufferSize, bufOut) ;
             if (DSP_FAILED (status)) {
-                FOO_1Print ("PROC_write Failed. Status: [0x%x]\n",
+                KM_1Print ("PROC_write Failed. Status: [0x%x]\n",
                                   status) ;
             }
         }
@@ -431,17 +431,17 @@ FOO_Execute (IN Uint32  dspAddress,
                 msg->size          = bufferSize ;
                 msg->scalingFactor = i ;
 		/* Risca added */
-		msg->foobar        = 42;
+		msg->kamybar        = 42;
 
                 /* Send the message */
                 status = MSGQ_put (DspMsgqNameq, (MSGQ_Msg) msg) ;
                 if (DSP_FAILED (status)) {
-                    FOO_1Print ("MSGQ_put failed. Status: [0x%x]\n",
+                    KM_1Print ("MSGQ_put failed. Status: [0x%x]\n",
                                       status) ;
                 }
             }
             else {
-                FOO_1Print ("MSGQ_alloc failed. Status: [0x%x]\n",
+                KM_1Print ("MSGQ_alloc failed. Status: [0x%x]\n",
                                   status) ;
             }
         }
@@ -450,14 +450,18 @@ FOO_Execute (IN Uint32  dspAddress,
         if (DSP_SUCCEEDED (status)) {
             status = MSGQ_get (SampleGppMsgq, WAIT_FOREVER, (MSGQ_Msg *) &msg) ;
             if (DSP_SUCCEEDED (status)) {
+                 /* Risca added */
+/*                if (i==1)*/
+                    KM_1Print ("msg->kamybar == %u\n", msg->kamybar);
+
                 status = MSGQ_free ((MSGQ_Msg) msg) ;
                 if (DSP_FAILED (status)) {
-                    FOO_1Print ("MSGQ_free failed. Status: [0x%x]\n",
+                    KM_1Print ("MSGQ_free failed. Status: [0x%x]\n",
                                       status) ;
                 }
             }
             else {
-                FOO_1Print ("MSGQ_get failed. Status: [0x%x]\n", status) ;
+                KM_1Print ("MSGQ_get failed. Status: [0x%x]\n", status) ;
             }
         }
 
@@ -465,12 +469,12 @@ FOO_Execute (IN Uint32  dspAddress,
         if (DSP_SUCCEEDED (status)) {
             status = PROC_read (processorId, dspAddr2, bufferSize, bufIn) ;
             if (DSP_FAILED (status)) {
-                FOO_1Print ("PROC_read Failed. Status: [0x%x]\n",
+                KM_1Print ("PROC_read Failed. Status: [0x%x]\n",
                                   status) ;
             }
         }
         else {
-            FOO_1Print ("PROC_write Failed. Status: [0x%x]\n", status) ;
+            KM_1Print ("PROC_write Failed. Status: [0x%x]\n", status) ;
         }
 
         /* Verify the data read back */
@@ -481,61 +485,61 @@ FOO_Execute (IN Uint32  dspAddress,
                  (j < bufferSize) && DSP_SUCCEEDED (status);
                  j++) {
                 if (ptr8 [j] != (Uint8) (ptr8_1 [j] * i)) {
-                    FOO_1Print ("Data mismatch at [0x%x]\n", j) ;
-                    FOO_1Print ("  Expected [0x%x]\n", (ptr8_1 [j] * i)) ;
-                    FOO_1Print ("  Received [0x%x]\n", ptr8 [j]) ;
+                    KM_1Print ("Data mismatch at [0x%x]\n", j) ;
+                    KM_1Print ("  Expected [0x%x]\n", (ptr8_1 [j] * i)) ;
+                    KM_1Print ("  Received [0x%x]\n", ptr8 [j]) ;
                     status = DSP_EFAIL ;
                 }
             }
 
             if ((i % 100) == 0) {
-                FOO_1Print ("Verified %5d Iterations of "
+                KM_1Print ("Verified %5d Iterations of "
                              "Correct Data Read/ Write\n", i) ;
             }
         }
     }
 
     if (bufIn != NULL) {
-        FOO_FreeBuffer ((Pvoid *) &bufIn) ;
+        KM_FreeBuffer ((Pvoid *) &bufIn) ;
     }
 
     if (bufOut != NULL) {
-        FOO_FreeBuffer ((Pvoid *) &bufOut) ;
+        KM_FreeBuffer ((Pvoid *) &bufOut) ;
     }
 
-    FOO_0Print ("Leaving FOO_Execute ()\n") ;
+    KM_0Print ("Leaving KM_Execute ()\n") ;
 
     return status ;
 }
 
 
 /** ============================================================================
- *  @func   FOO_Delete
+ *  @func   KM_Delete
  *
  *  @desc   This function releases resources allocated earlier by call to
- *          FOO_Create ().
+ *          KM_Create ().
  *          During cleanup, the allocated resources are being freed
  *          unconditionally. Actual applications may require stricter check
  *          against return values for robustness.
  *
- *  @modif  FOO_Buffers
+ *  @modif  KM_Buffers
  *  ============================================================================
  */
 NORMAL_API
 Void
-FOO_Delete (IN Uint8 processorId)
+KM_Delete (IN Uint8 processorId)
 {
     DSP_STATUS status    = DSP_SOK ;
     DSP_STATUS tmpStatus = DSP_SOK ;
 
-    FOO_0Print ("Entered FOO_Delete ()\n") ;
+    KM_0Print ("Entered KM_Delete ()\n") ;
 
     /*
      *  Release the remote message queue
      */
     status = MSGQ_release (DspMsgqNameq) ;
     if (DSP_FAILED (status)) {
-        FOO_1Print ("MSGQ_release () failed. Status = [0x%x]\n", status) ;
+        KM_1Print ("MSGQ_release () failed. Status = [0x%x]\n", status) ;
     }
 
     /*
@@ -543,7 +547,7 @@ FOO_Delete (IN Uint8 processorId)
      */
     status = MSGQ_transportClose (processorId) ;
     if (DSP_FAILED (status)) {
-        FOO_1Print ("MSGQ_transportClose () failed. Status = [0x%x]\n",
+        KM_1Print ("MSGQ_transportClose () failed. Status = [0x%x]\n",
                         status) ;
     }
 
@@ -552,7 +556,7 @@ FOO_Delete (IN Uint8 processorId)
      */
     tmpStatus = PROC_stop (processorId) ;
     if (DSP_SUCCEEDED (status) && DSP_FAILED (tmpStatus)) {
-        FOO_1Print ("PROC_stop () failed (output). Status: [0x%x]\n",
+        KM_1Print ("PROC_stop () failed (output). Status: [0x%x]\n",
                      tmpStatus) ;
     }
 
@@ -562,7 +566,7 @@ FOO_Delete (IN Uint8 processorId)
     tmpStatus = MSGQ_close (SampleGppMsgq) ;
     if (DSP_SUCCEEDED (status) && DSP_FAILED (tmpStatus)) {
         status = tmpStatus ;
-        FOO_1Print ("MSGQ_close () failed. Status = [0x%x]\n", status) ;
+        KM_1Print ("MSGQ_close () failed. Status = [0x%x]\n", status) ;
     }
 
     /*
@@ -570,7 +574,7 @@ FOO_Delete (IN Uint8 processorId)
      */
     tmpStatus = POOL_close (POOL_makePoolId(processorId, POOL_ID)) ;
     if (DSP_SUCCEEDED (status) && DSP_FAILED (tmpStatus)) {
-        FOO_1Print ("POOL_close () failed. Status = [0x%x]\n",
+        KM_1Print ("POOL_close () failed. Status = [0x%x]\n",
                         tmpStatus) ;
     }
 
@@ -579,7 +583,7 @@ FOO_Delete (IN Uint8 processorId)
      */
     tmpStatus = PROC_detach  (processorId) ;
     if (DSP_SUCCEEDED (status) && DSP_FAILED (tmpStatus)) {
-        FOO_1Print ("PROC_detach () failed. Status: [0x%x]\n", tmpStatus) ;
+        KM_1Print ("PROC_detach () failed. Status: [0x%x]\n", tmpStatus) ;
     }
 
     /*
@@ -587,23 +591,23 @@ FOO_Delete (IN Uint8 processorId)
      */
     tmpStatus = PROC_destroy () ;
     if (DSP_SUCCEEDED (status) && DSP_FAILED (tmpStatus)) {
-        FOO_1Print ("PROC_destroy () failed. Status: [0x%x]\n", tmpStatus) ;
+        KM_1Print ("PROC_destroy () failed. Status: [0x%x]\n", tmpStatus) ;
     }
 
     /*
      *  OS Finalization
      */
-    tmpStatus = FOO_OS_exit () ;
+    tmpStatus = KM_OS_exit () ;
     if (DSP_SUCCEEDED (status) && DSP_FAILED (tmpStatus)) {
         status = tmpStatus ;
-        FOO_1Print ("FOO_OS_exit () failed. Status = [0x%x]\n", status) ;
+        KM_1Print ("KM_OS_exit () failed. Status = [0x%x]\n", status) ;
     }
 
-    FOO_0Print ("Leaving FOO_Delete ()\n") ;
+    KM_0Print ("Leaving KM_Delete ()\n") ;
 }
 
 /** ============================================================================
- *  @func   FOO_Main
+ *  @func   KM_Main
  *
  *  @desc   Entry point for the application
  *
@@ -612,7 +616,7 @@ FOO_Delete (IN Uint8 processorId)
  */
 NORMAL_API
 Void
-FOO_Main (IN Char8 * dspExecutable,
+KM_Main (IN Char8 * dspExecutable,
            IN Char8 * strDspAddress,
            IN Uint32  dspAddress,
            IN Char8 * strBufferSize,
@@ -623,7 +627,7 @@ FOO_Main (IN Char8 * dspExecutable,
 {
     DSP_STATUS status = DSP_SOK ;
 
-    FOO_0Print ("============= Sample Application : READWRITE ==========\n") ;
+    KM_0Print ("============= Sample Application : READWRITE ==========\n") ;
 
     if (   (dspExecutable != NULL)
         && (strBufferSize != NULL)
@@ -632,13 +636,13 @@ FOO_Main (IN Char8 * dspExecutable,
             || (bufferSize == 0)
             || (processorId >= MAX_DSPS)) {
             status = DSP_EINVALIDARG ;
-            FOO_1Print ("ERROR! Invalid arguments specified for  "
-                         "foo application.\n"
+            KM_1Print ("ERROR! Invalid arguments specified for  "
+                         "kamy application.\n"
                          "     Max iterations = %d\n",
                          0xFFFF) ;
-            FOO_1Print ("     Buffer size    = %d\n",
+            KM_1Print ("     Buffer size    = %d\n",
                          bufferSize) ;
-            FOO_1Print ("     DSP processorId    = %d\n",
+            KM_1Print ("     DSP processorId    = %d\n",
                          processorId) ;
         }
         else {
@@ -646,7 +650,7 @@ FOO_Main (IN Char8 * dspExecutable,
              *  Specify the dsp executable file name and the buffer size for
              *  loop creation phase.
              */
-            status = FOO_Create (dspExecutable,
+            status = KM_Create (dspExecutable,
                                   strBufferSize,
                                   strNumIterations,
                                   processorId) ;
@@ -655,32 +659,32 @@ FOO_Main (IN Char8 * dspExecutable,
              *  Execute the data transfer loop.
              */
             if (DSP_SUCCEEDED (status)) {
-                status = FOO_Execute (dspAddress,
+                status = KM_Execute (dspAddress,
                                        bufferSize,
                                        numIterations,
                                        processorId) ;
                 if (DSP_FAILED (status)) {
-                    FOO_1Print ("Execute phase failed. Status: [0x%x]\n",
+                    KM_1Print ("Execute phase failed. Status: [0x%x]\n",
                                  status) ;
                 }
             }
             else {
-                FOO_1Print ("Create phase failed. Status: [0x%x]\n", status) ;
+                KM_1Print ("Create phase failed. Status: [0x%x]\n", status) ;
             }
 
             /*
              *  Perform cleanup operation.
              */
-            FOO_Delete (processorId) ;
+            KM_Delete (processorId) ;
         }
     }
     else {
         status = DSP_EINVALIDARG ;
-        FOO_0Print ("ERROR! Invalid arguments specified for while executing "
-                     "foo application\n") ;
+        KM_0Print ("ERROR! Invalid arguments specified for while executing "
+                     "kamy application\n") ;
     }
 
-    FOO_0Print ("=======================================================\n") ;
+    KM_0Print ("=======================================================\n") ;
 }
 
 

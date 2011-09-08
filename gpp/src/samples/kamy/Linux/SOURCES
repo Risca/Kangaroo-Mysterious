@@ -1,7 +1,7 @@
 #   ============================================================================
 #   @file   SOURCES
 #
-#   @path   $(DSPLINK)/dsp/src/samples/foo/
+#   @path   $(DSPLINK)/gpp/src/samples/kamy/Linux/
 #
 #   @desc   This file contains list of source files to be compiled.
 #
@@ -39,7 +39,5 @@
 #   ============================================================================
 
 
-SOURCES :=                  \
-           main.c           \
-           tskFoo.c   \
-           foo_config.c
+SOURCES :=  kamy_os.c \
+            main.c

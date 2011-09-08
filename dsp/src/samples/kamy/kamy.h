@@ -1,10 +1,9 @@
 /** ============================================================================
- *  @file   foo.tcf
+ *  @file   kamy.h
  *
- *  @path   $(DSPLINK)/dsp/src/samples/foo/DspBios/5.XX/OMAP3530/
+ *  @path   $(DSPLINK)/dsp/src/samples/kamy/
  *
- *  @desc   Configuration file for the FOO sample.
- *          This file defines platform-specific configuration details.
+ *  @desc   Header file for kamy application.
  *
  *  @ver    1.65.00.03
  *  ============================================================================
@@ -40,39 +39,52 @@
  *  ============================================================================
  */
 
+#ifndef KM_
+#define KM_
 
-/*  ============================================================================
- *  Load generic DSP/BIOS Link configuration
+/*  ----------------------------------- DSP/BIOS Headers            */
+#include <msgq.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/** ============================================================================
+ *  @const  KM_REQUEST_MSGID
+ *
+ *  @desc   Id to denote a scaling change.
  *  ============================================================================
  */
-utils.importFile("dsplink-omap3530-base.tci") ;
-utils.importFile("foo.tci") ;
+#define KM_REQUEST_MSGID   1
 
-/*  ============================================================================
- *  Set all code and data sections to use DDR2
+/** ============================================================================
+ *  @name   SampleMessage
+ *
+ *  @desc   Structure used to pass the scaling factor from the GPP to the DSP.
+ *
+ *  @field  msgHeader
+ *              Required first field of a message.
+ *  @field  gppWriteAddr
+ *              DSP Memory address where GPP writes.
+ *  @field  dspWriteAddr
+ *              DSP Memory address where GPP writes.
+ *  @field  size
+ *              Size of data written
+ *  @field  scalingFactor
+ *              Used to scale the output buffer values.
  *  ============================================================================
  */
-bios.setMemCodeSections(prog, DDR2) ;
-bios.setMemDataNoHeapSections(prog, DDR2) ;
-bios.setMemDataHeapSections(prog, DDR2) ;
+typedef struct SampleMessage_tag {
+    MSGQ_MsgHeader msgHeader     ;
+    Uint32         gppWriteAddr  ;
+    Uint32         dspWriteAddr  ;
+    Uint32         size          ;
+    Uint32         scalingFactor ;
+    Uint32         kamybar        ;
+} SampleMessage ;
 
-/*  ============================================================================
- *  MEM : Global
- *  ============================================================================
- */
-prog.module("MEM").BIOSOBJSEG = DDR2 ;
-prog.module("MEM").MALLOCSEG  = DDR2 ;
-
-/*  ============================================================================
- *  TSK : Global
- *  ============================================================================
- */
-prog.module("TSK").STACKSEG = DDR2 ;
-
-/*  ============================================================================
- *  Generate cdb file...
- *  ============================================================================
- */
-if (config.hasReportedError == false) {
-    prog.gen() ;
+#ifdef __cplusplus
 }
+#endif /* extern "C" */
+
+#endif /* KM_ */

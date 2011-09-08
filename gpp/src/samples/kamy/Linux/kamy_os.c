@@ -1,9 +1,9 @@
 /** ============================================================================
- *  @file   foo_config.c
+ *  @file   kamy_os.c
  *
- *  @path   $(DSPLINK)/dsp/src/samples/foo/
+ *  @path   $(DSPLINK)/gpp/src/samples/kamy/Linux/
  *
- *  @desc   Source file containing configuration for the FOO sample.
+ *  @desc   OS specific implementation of functions used by the kamy application.
  *
  *  @ver    1.65.00.03
  *  ============================================================================
@@ -40,26 +40,17 @@
  */
 
 
-/*  ----------------------------------- DSP/BIOS Headers            */
-#include <std.h>
-#include <sys.h>
-#include <msgq.h>
-#include <pool.h>
+/*  ----------------------------------- OS Specific Headers           */
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <malloc.h>
 
-/*  ----------------------------------- DSP/BIOS LINK Headers       */
+/*  ----------------------------------- DSP/BIOS Link                 */
 #include <dsplink.h>
-#include <failure.h>
 
-#if defined (MSGQ_ZCPY_LINK)
-#include <zcpy_mqt.h>
-#endif /* if defined (MSGQ_ZCPY_LINK) */
-
-#if defined (ZCPY_LINK)
-#include <sma_pool.h>
-#endif /* if defined (ZCPY_LINK) */
-
-/*  ----------------------------------- Sample Headers              */
-#include <foo_config.h>
+/*  ----------------------------------- Application Header            */
+#include <kamy.h>
 
 
 #if defined (__cplusplus)
@@ -68,114 +59,148 @@ extern "C" {
 
 
 /** ============================================================================
- *  @const  NUM_POOLS
+ *  @func   KM_OS_init
  *
- *  @desc   Number of pools configured in the system.
+ *  @desc   This function creates a mem pool.
+ *
+ *  @modif  None
  *  ============================================================================
  */
-#define NUM_POOLS           1
-
-/** ============================================================================
- *  @const  NUM_MSG_QUEUES
- *
- *  @desc   Number of local message queues
- *  ============================================================================
- */
-#define NUM_MSG_QUEUES      1
-
-
-/** ============================================================================
- *  @const  SAMPLEPOOL_PARAMS, SAMPLEPOOL_FXNS, SAMPLEPOOL_init
- *
- *  @desc   Pool configuration definitions
- *  ============================================================================
- */
-#define SAMPLEMQT_FXNS          ZCPYMQT_FXNS
-#define SAMPLEMQT_init          ZCPYMQT_init
-#define SAMPLEMQT_CTRLMSG_SIZE  ZCPYMQT_CTRLMSG_SIZE
-#define SAMPLEPOOL_PARAMS       SamplePoolParams
-ZCPYMQT_Params  mqtParams = {SAMPLE_POOL_ID} ;
-
-#define SAMPLEPOOL_FXNS         SMAPOOL_FXNS
-#define SAMPLEPOOL_init         SMAPOOL_init
-
-SMAPOOL_Params SamplePoolParams =
+NORMAL_API
+DSP_STATUS
+KM_OS_init(Void)
 {
-    SAMPLE_POOL_ID, /* Pool ID */
-    TRUE            /* Exact Size Match Requirement */
-} ;
+    DSP_STATUS          status = DSP_SOK ;
+
+    return status ;
+}
 
 
 /** ============================================================================
- *  @name   msgQueues
+ *  @func   KM_OS_exit
  *
- *  @desc   Array of local message queues
+ *  @desc   This function deletes a mem pool.
+ *
+ *  @modif  None
  *  ============================================================================
  */
-static MSGQ_Obj msgQueues [NUM_MSG_QUEUES] ;
-
-
-/** ============================================================================
- *  @name   transports
- *
- *  @desc   Array of transports.
- *  ============================================================================
- */
-MSGQ_TransportObj transports [MAX_PROCESSORS] =
+NORMAL_API
+DSP_STATUS
+KM_OS_exit(Void)
 {
-     MSGQ_NOTRANSPORT,    /* Represents the local processor */
-     {
-        &SAMPLEMQT_init,  /* Init Function                 */
-        &SAMPLEMQT_FXNS,  /* Transport interface functions */
-        &mqtParams,       /* Transport params              */
-        NULL,             /* Filled in by transport        */
-        ID_GPP            /* Processor Id                  */
-     }
-} ;
+    DSP_STATUS status = DSP_SOK ;
 
-/** ============================================================================
- *  @name   MSGQ_config
- *
- *  @desc   MSGQ configuration information.
- *          MSGQ_config is a required global variable.
- *  ============================================================================
- */
-MSGQ_Config MSGQ_config =
-{
-    msgQueues,
-    transports,
-    NUM_MSG_QUEUES,
-    MAX_PROCESSORS,
-    0,
-    MSGQ_INVALIDMSGQ,
-    POOL_INVALIDID
-} ;
+    return status ;
+}
 
 
 /** ============================================================================
- *  @name   FOO_Pools
+ *  @func   KM_0Print
  *
- *  @desc   Array of pools.
+ *  @desc   Print a message without any arguments.
+ *
+ *  @modif  None
  *  ============================================================================
  */
-POOL_Obj FOO_Pools [NUM_POOLS] =
+NORMAL_API
+Void
+KM_0Print (Char8 * str)
 {
-    {
-        &SAMPLEPOOL_init,               /* Init Function                      */
-        (POOL_Fxns *) &SAMPLEPOOL_FXNS, /* Pool interface functions           */
-        &SAMPLEPOOL_PARAMS,              /* Pool params                        */
-        NULL                            /* Pool object: Set within pool impl. */
+    printf (str) ;
+    fflush (stdout) ;
+}
+
+
+/** ============================================================================
+ *  @func   KM_1Print
+ *
+ *  @desc   Print a message with one arguments.
+ *
+ *  @modif  None
+ *  ============================================================================
+ */
+NORMAL_API
+Void
+KM_1Print (Char8 * str, Uint32 arg)
+{
+    printf (str, arg) ;
+    fflush (stdout) ;
+}
+
+/** ============================================================================
+ *  @func   KM_Sleep
+ *
+ *  @desc   Sleeps for the specified number of microseconds.
+ *          This is a OS specific function and is implemented in file:
+ *              <GPPOS>\KM_os.c
+ *
+ *  @modif  None
+ *  ============================================================================
+ */
+NORMAL_API
+Void
+KM_Sleep (IN Uint32 uSec)
+{
+    usleep (uSec) ;
+}
+
+
+/** ============================================================================
+ *  @func   KM_AllocateBuffer
+ *
+ *  @desc   Allocates a buffer of specified size.
+ *
+ *  @modif  None
+ *  ============================================================================
+ */
+NORMAL_API
+DSP_STATUS
+KM_AllocateBuffer (IN Uint32 size, OUT Pvoid * buf)
+{
+    DSP_STATUS status = DSP_SOK ;
+
+    *buf = malloc (size) ;
+    if (*buf == NULL) {
+        status = DSP_EMEMORY ;
     }
-} ;
+
+    return status ;
+}
+
 
 /** ============================================================================
- *  @name   POOL_config
+ *  @func   KM_FreeBuffer
  *
- *  @desc   POOL configuration information.
- *          POOL_config is a required global variable.
+ *  @desc   Frees the specified buffer
+ *
+ *  @modif  None
  *  ============================================================================
  */
-POOL_Config POOL_config = {FOO_Pools, NUM_POOLS} ;
+NORMAL_API
+Void
+KM_FreeBuffer (IN OUT Pvoid * buf)
+{
+    free (*buf) ;
+    *buf = NULL ;
+}
+
+
+/** ============================================================================
+ *  @func   KM_Atoll
+ *
+ *  @desc   Converts ascii to long int
+ *
+ *  @modif  None
+ *  ============================================================================
+ */
+NORMAL_API
+Uint32
+KM_Atoll (Char8 * str)
+{
+     Uint32 val = 0 ;
+     val = strtoll (str, NULL, 16) ;
+     return val ;
+}
 
 
 #if defined (__cplusplus)

@@ -1,10 +1,10 @@
 /** ============================================================================
- *  @file   tskFoo.c
+ *  @file   tskKamy.c
  *
- *  @path   $(DSPLINK)/dsp/src/samples/foo/
+ *  @path   $(DSPLINK)/dsp/src/samples/kamy/
  *
  *  @desc   This is simple TSK based application that uses SIO interface to
- *          implement foo for GPP. It receives data from the a input
+ *          implement kamy for GPP. It receives data from the a input
  *          channel and send the same data back from output channel. Input and
  *          output channel numbers are configurable through header file of this
  *          application. It also uses a message queue to receive a
@@ -62,9 +62,9 @@
 #include <hal_cache.h>
 
 /*  ----------------------------------- Sample Headers              */
-#include <tskFoo.h>
-#include <foo.h>
-#include <foo_config.h>
+#include <tskKamy.h>
+#include <kamy.h>
+#include <kamy_config.h>
 
 
 /** ============================================================================
@@ -92,26 +92,26 @@ extern LOG_Obj trace ;
 extern Uint32 numTransfers ;
 
 /** ============================================================================
- *  @func   TSKFOO_create
+ *  @func   TSKKM_create
  *
- *  @desc   Create phase function for the TSKFOO application. Initializes the
- *          TSKFOO_TransferInfo structure with the information that will be
+ *  @desc   Create phase function for the TSKKM application. Initializes the
+ *          TSKKM_TransferInfo structure with the information that will be
  *          used by the other phases of the application.
  *
  *  @modif  None.
  *  ============================================================================
  */
-Int TSKFOO_create(TSKFOO_TransferInfo ** infoPtr)
+Int TSKKM_create(TSKKM_TransferInfo ** infoPtr)
 {
     Int                     status    = SYS_OK ;
     MSGQ_Attrs              msgqAttrs = MSGQ_ATTRS ;
-    TSKFOO_TransferInfo *   info      = NULL ;
+    TSKKM_TransferInfo *   info      = NULL ;
     MSGQ_LocateAttrs        syncLocateAttrs ;
 
-    /* Allocate TSKFOO_TransferInfo structure that will be initialized
+    /* Allocate TSKKM_TransferInfo structure that will be initialized
      * and passed to other phases of the application */
     *infoPtr = MEM_calloc (DSPLINK_SEGID,
-                           sizeof (TSKFOO_TransferInfo),
+                           sizeof (TSKKM_TransferInfo),
                            DSPLINK_BUF_ALIGN) ;
     if (*infoPtr == NULL) {
         status = SYS_EALLOC ;
@@ -169,9 +169,9 @@ Int TSKFOO_create(TSKFOO_TransferInfo ** infoPtr)
 
 
 /** ============================================================================
- *  @func   TSKFOO_execute
+ *  @func   TSKKM_execute
  *
- *  @desc   Execute phase function for the TSKFOO application. Application
+ *  @desc   Execute phase function for the TSKKM application. Application
  *          receives the data from the input channel and sends the same data
  *          back on output channel. Channel numbers can be configured through
  *          header file.
@@ -179,13 +179,12 @@ Int TSKFOO_create(TSKFOO_TransferInfo ** infoPtr)
  *  @modif  None.
  *  ============================================================================
  */
-Int TSKFOO_execute(TSKFOO_TransferInfo * info)
+Int TSKKM_execute(TSKKM_TransferInfo * info)
 {
     Int             status    = SYS_OK;
     Char *          readBuf ;
     Char *          writeBuf ;
     Uint32          scalingFactor ;
-    Uint32          foobar;
     Uint32          size ;
     Uint32          i, j;
     SampleMessage * msg;
@@ -204,11 +203,6 @@ Int TSKFOO_execute(TSKFOO_TransferInfo * info)
             writeBuf      = (Char *) msg->dspWriteAddr ;
             size          = msg->size ;
             scalingFactor = msg->scalingFactor ;
-	    foobar        = msg->foobar;
-	    if (i==1 && foobar) {
-	        LOG_printf (&trace, "foobar received: %u\n",foobar);
-		msg->foobar = 1337;
-	    }
 
             HAL_cacheInv ((Ptr) readBuf, size) ;
 
@@ -231,16 +225,16 @@ Int TSKFOO_execute(TSKFOO_TransferInfo * info)
 
 
 /** ============================================================================
- *  @func   TSKFOO_delete
+ *  @func   TSKKM_delete
  *
- *  @desc   Delete phase function for the TSKFOO application. It deallocates
+ *  @desc   Delete phase function for the TSKKM application. It deallocates
  *          all the resources of allocated during create phase of the
  *          application.
  *
  *  @modif  None.
  *  ============================================================================
  */
-Int TSKFOO_delete (TSKFOO_TransferInfo * info)
+Int TSKKM_delete (TSKKM_TransferInfo * info)
 {
     Int         status     = SYS_OK ;
     Bool        freeStatus = FALSE ;
@@ -254,7 +248,7 @@ Int TSKFOO_delete (TSKFOO_TransferInfo * info)
     }
 
     /* Free the info structure */
-    freeStatus = MEM_free(DSPLINK_SEGID, info, sizeof (TSKFOO_TransferInfo));
+    freeStatus = MEM_free(DSPLINK_SEGID, info, sizeof (TSKKM_TransferInfo));
     if (freeStatus != TRUE) {
         status = SYS_EFREE;
         SET_FAILURE_REASON(status);

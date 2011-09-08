@@ -1,9 +1,9 @@
 /** ============================================================================
- *  @file   tskFoo.h
+ *  @file   tskKamy.h
  *
- *  @path   $(DSPLINK)/dsp/src/samples/foo/
+ *  @path   $(DSPLINK)/dsp/src/samples/kamy/
  *
- *  @desc   Header file for tskFoo application.
+ *  @desc   Header file for tskKamy application.
  *
  *  @ver    1.65.00.03
  *  ============================================================================
@@ -40,8 +40,8 @@
  */
 
 
-#ifndef TSKFOO_
-#define TSKFOO_
+#ifndef TSKKM_
+#define TSKKM_
 
 
 /*  ----------------------------------- DSP/BIOS Headers            */
@@ -56,7 +56,7 @@ extern "C" {
 
 
 /** ============================================================================
- *  @name   TSKFOO_TransferInfo
+ *  @name   TSKKM_TransferInfo
  *
  *  @desc   Structure used to keep various information needed by various phases
  *          of the application. <tbd>
@@ -80,24 +80,24 @@ extern "C" {
  *  @field  buffer
  *              Buffer pointer.
  *  @field  scalingFactor
- *              Used to foo the output buffer values.
+ *              Used to kamy the output buffer values.
  *  ============================================================================
  */
-typedef struct TSKFOO_TransferInfo_tag {
+typedef struct TSKKM_TransferInfo_tag {
     MSGQ_Queue  gppMsgqQueue ;
     MSGQ_Queue  dspMsgqQueue ;
     SEM_Obj     notifyDspSemObj ;
     Uint32      numTransfers ;
     Uint32      bufferSize ;
     Uint32      scalingFactor ;
-    Uint32      foobar ;
-} TSKFOO_TransferInfo ;
+    Uint32      kamybar ;
+} TSKKM_TransferInfo ;
 
 
 /** ============================================================================
- *  @func   TSKFOO_create
+ *  @func   TSKKM_create
  *
- *  @desc   Create phase function of TSKFOO application.
+ *  @desc   Create phase function of TSKKM application.
  *
  *  @arg    transferInfo
  *              Information for transfer.
@@ -114,12 +114,12 @@ typedef struct TSKFOO_TransferInfo_tag {
  *  @see    None
  *  ============================================================================
  */
-Int TSKFOO_create (TSKFOO_TransferInfo ** transferInfo);
+Int TSKKM_create (TSKKM_TransferInfo ** transferInfo);
 
 /** ============================================================================
- *  @func   TSKFOO_execute
+ *  @func   TSKKM_execute
  *
- *  @desc   Excecute phase function of TSKFOO application.
+ *  @desc   Excecute phase function of TSKKM application.
  *
  *  @arg    transferInfo
  *              Information for transfer.
@@ -136,12 +136,12 @@ Int TSKFOO_create (TSKFOO_TransferInfo ** transferInfo);
  *  @see    None
  *  ============================================================================
  */
-Int TSKFOO_execute (TSKFOO_TransferInfo * transferInfo);
+Int TSKKM_execute (TSKKM_TransferInfo * transferInfo);
 
 /** ============================================================================
- *  @func   TSKFOO_delete
+ *  @func   TSKKM_delete
  *
- *  @desc   Delete phase function of TSKFOO application.
+ *  @desc   Delete phase function of TSKKM application.
  *
  *  @arg    transferInfo
  *              Information for transfer.
@@ -158,7 +158,7 @@ Int TSKFOO_execute (TSKFOO_TransferInfo * transferInfo);
  *  @see    None
  *  ============================================================================
  */
-Int TSKFOO_delete (TSKFOO_TransferInfo * transferInfo);
+Int TSKKM_delete (TSKKM_TransferInfo * transferInfo);
 
 
 #ifdef __cplusplus
@@ -166,4 +166,4 @@ Int TSKFOO_delete (TSKFOO_TransferInfo * transferInfo);
 #endif /* extern "C" */
 
 
-#endif /* TSKFOO_ */
+#endif /* TSKKM_ */

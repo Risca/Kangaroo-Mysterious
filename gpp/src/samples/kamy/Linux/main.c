@@ -1,9 +1,9 @@
 /** ============================================================================
  *  @file   main.c
  *
- *  @path   $(DSPLINK)/gpp/src/samples/foo/Linux/
+ *  @path   $(DSPLINK)/gpp/src/samples/kamy/Linux/
  *
- *  @desc   Linux specific implementation of foo sample application's driver.
+ *  @desc   Linux specific implementation of kamy sample application's driver.
  *
  *  @ver    1.65.00.03
  *  ============================================================================
@@ -48,7 +48,7 @@
 #include <dsplink.h>
 
 /*  ----------------------------------- Application Header            */
-#include <foo.h>
+#include <kamy.h>
 
 
 #if defined (__cplusplus)
@@ -104,7 +104,7 @@ int main (int argc, char ** argv)
             processorId      = atoi (strProcessorId) ;
         }
         if (processorId < MAX_PROCESSORS ) {
-            FOO_Main ( dspExecutable,
+            KM_Main ( dspExecutable,
                         strDspAddress,
                         dspAddress,
                         strBufferSize,
