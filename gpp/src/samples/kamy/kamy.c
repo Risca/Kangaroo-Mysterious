@@ -17,9 +17,11 @@
 #include <pool.h>
 
 
-/*  ----------------------------------- APP HEADER                       */
+/*  ----------------------------------- APP HEADER                      */
 #include <kamy.h>
 
+/*  ----------------------------------- IMAGE GEN HEADER                */
+#include <conv.h>
 
 #if defined (__cplusplus)
 extern "C" {
@@ -232,7 +234,7 @@ KM_Create (IN Char8 * dspExecutable,
     DSP_STATUS       status   = DSP_SOK   ;
     Char8 *          args [NUM_ARGS]      ;
     MSGQ_LocateAttrs syncLocateAttrs      ;
-    Uint8 processorId        = 0         ;
+    Uint8 processorId         = 0         ;
 
     KM_0Print ("Entered KM_Create ()\n") ;
 
@@ -368,12 +370,12 @@ KM_Execute (IN Uint32  dspAddress,
     Uint32 *        bufOut   = NULL ;
     Uint8 *         ptr8     = NULL ;
     Uint8 *         ptr8_1   = NULL ;
-    Uint8           bufferSize = 2*width*height*sizeof(unsigned char);
-    Uint32          dspAddr1 = dspAddress ;
-    Uint32          dspAddr2 = (dspAddress + bufferSize) ;
+    Uint8           processorId = 0 ;
+    Uint8           bufferSize  = 2*width*height*sizeof(unsigned char);
+    Uint32          dspAddr1    = dspAddress ;
+    Uint32          dspAddr2    = (dspAddress + bufferSize) ;
     SampleMessage * msg ;
     Uint32          i, j ;
-    Uint8           processorId = 0 ;
 
     KM_0Print ("Entered KM_Execute ()\n") ;
 
@@ -400,7 +402,7 @@ KM_Execute (IN Uint32  dspAddress,
         for (j = 0 ;
              DSP_SUCCEEDED (status) && (j < bufferSize) ;
              j++)
-	{
+        {
             *ptr8 = 0 ;
             ptr8++ ;
         }
@@ -414,17 +416,11 @@ KM_Execute (IN Uint32  dspAddress,
         }
 
         /*  Prime the data buffer for the sample application
-         *  - Initialize the buffer to '1's. This value is multiplied
-         *    by the DSP with the iteration number
+         *  - Initialize the buffer to a sample image
          */
         ptr8  = (Uint8 *)  (bufOut) ;
-        for (j = 0 ;
-             DSP_SUCCEEDED (status) && (j < bufferSize) ;
-             j++)
-	{
-            *ptr8  = 0x1 ;
-            ptr8++ ;
-        }
+        gengrad (width, height, ptr8) ;
+        genbars (width, height, ptr8) ;
 
         /*  Write the data buffer to the DSP side */
         if (DSP_SUCCEEDED (status)) {
@@ -657,8 +653,8 @@ KM_Main (IN Char8 * dspExecutable,
         }
         else {
             /*
-             *  Specify the dsp executable file name and the buffer size for
-             *  loop creation phase.
+             *  Specify the dsp executable file name, width, height
+             *  and number of iterations (args).
              */
             status = KM_Create (dspExecutable,
                                   strWidth,
