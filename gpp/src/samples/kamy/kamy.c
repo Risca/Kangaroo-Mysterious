@@ -371,7 +371,7 @@ KM_Execute (IN Uint32  dspAddress,
     Uint8 *         ptr8     = NULL ;
     Uint8 *         ptr8_1   = NULL ;
     Uint8           processorId = 0 ;
-    Uint8           bufferSize  = 2*width*height*sizeof(unsigned char);
+    Uint32          bufferSize  = 2*width*height*sizeof(unsigned char);
     Uint32          dspAddr1    = dspAddress ;
     Uint32          dspAddr2    = (dspAddress + bufferSize) ;
     SampleMessage * msg ;
