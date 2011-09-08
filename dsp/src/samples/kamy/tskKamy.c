@@ -65,6 +65,7 @@
 #include <tskKamy.h>
 #include <kamy.h>
 #include <kamy_config.h>
+#include <conv.h>
 
 
 /** ============================================================================
@@ -178,8 +179,8 @@ Int TSKKM_create(TSKKM_TransferInfo ** infoPtr)
     if (status == SYS_OK) {
         /* Filling up the transfer info structure */
         info->numTransfers  = numTransfers ;
-	info->width         = yuvWidth ;
-	info->height        = yuvHeight ;
+        info->width         = yuvWidth ;
+        info->height        = yuvHeight ;
     }
 
     return status ;
@@ -202,7 +203,6 @@ Int TSKKM_execute(TSKKM_TransferInfo * info)
     Int             status    = SYS_OK;
     Char *          readBuf ;
     Char *          writeBuf ;
-/*    Uint32          scalingFactor ;*/
     Uint32          size ;
     Uint32          i;
     SampleMessage * msg;
@@ -222,12 +222,10 @@ Int TSKKM_execute(TSKKM_TransferInfo * info)
             size          = msg->size ;
 
             HAL_cacheInv ((Ptr) readBuf, size) ;
+
             /* Do DSP stuff here! */
-	    /*
-            for (j = 0 ; j < size ; j++) {
-                writeBuf [j] = (Char) (readBuf [j] * scalingFactor) ;
-            }
-*/
+            convimg (readBuf, writeBuf, info->width, info->height, 0);
+
             HAL_cacheWbInv ((Ptr)(msg->dspWriteAddr), size) ;
 
             /* Now send a message to the GPP */
