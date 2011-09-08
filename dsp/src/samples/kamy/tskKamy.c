@@ -201,8 +201,8 @@ Int TSKKM_create(TSKKM_TransferInfo ** infoPtr)
 Int TSKKM_execute(TSKKM_TransferInfo * info)
 {
     Int             status    = SYS_OK;
-    Char *          readBuf ;
-    Char *          writeBuf ;
+    Uint8 *         readBuf ;
+    Uint8 *         writeBuf ;
     Uint32          size ;
     Uint32          i;
     SampleMessage * msg;
@@ -217,8 +217,8 @@ Int TSKKM_execute(TSKKM_TransferInfo * info)
         /* Wait for the messaging containing information about data buffer */
         status = MSGQ_get (info->dspMsgqQueue, (MSGQ_Msg *) &msg, SYS_FOREVER) ;
         if (status == SYS_OK) {
-            readBuf       = (Char *) msg->gppWriteAddr ;
-            writeBuf      = (Char *) msg->dspWriteAddr ;
+            readBuf       = (Uint8 *) msg->gppWriteAddr ;
+            writeBuf      = (Uint8 *) msg->dspWriteAddr ;
             size          = msg->size ;
 
             HAL_cacheInv ((Ptr) readBuf, size) ;
