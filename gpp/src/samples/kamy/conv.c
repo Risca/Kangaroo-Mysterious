@@ -10,13 +10,12 @@
 #include <stdint.h>
 #include <string.h>
 
-unsigned char* gengrad( uint16 width, uint16 height )
+void gengrad( uint16 width, uint16 height, unsigned char *imgptr )
 {
-	unsigned char *imgptr, *imgptr_cpy;
+	unsigned char *imgptr_cpy;
 	uint16 row, col;
 	uint8 Y = 0;
 
-	imgptr = malloc( 2*width*height*sizeof(unsigned char) );
 	imgptr_cpy = imgptr;
 
 	// loop through rows
@@ -32,16 +31,15 @@ unsigned char* gengrad( uint16 width, uint16 height )
 			*imgptr_cpy++ = 128; // Cb
 		}
 	}
-	return imgptr;
+	return;
 }
 
-unsigned char* genbars( uint16 width, uint16 height )
+void genbars( uint16 width, uint16 height, unsigned char *imgptr )
 {
-	unsigned char *imgptr, *imgptr_cpy;
+	unsigned char *imgptr_cpy;
 	uint16 row, col;
 	uint8 Y = 0;
 
-	imgptr = malloc( 2*width*height*sizeof(unsigned char) );
 	imgptr_cpy = imgptr;
 
 	// loop through rows
@@ -65,5 +63,5 @@ unsigned char* genbars( uint16 width, uint16 height )
 			*imgptr_cpy++ = 128; // Cb
 		}
 	}
-	return imgptr;
+	return;
 }
