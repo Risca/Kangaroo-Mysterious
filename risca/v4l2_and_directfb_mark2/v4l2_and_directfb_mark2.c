@@ -4,7 +4,6 @@
 #include "v4l2_inc.h"
 #include "directfb_inc.h"
 
-char *dev_name = NULL;
 int width      = 640;
 int height     = 480;
 
@@ -13,8 +12,6 @@ int main(int argc,char *argv[])
     void * imgPtr = 0;
     char c = 0;
     directfb_init(argc,argv);
-
-    dev_name = "/dev/video0";
 
     if (!open_device ())
         exit (EXIT_FAILURE);
