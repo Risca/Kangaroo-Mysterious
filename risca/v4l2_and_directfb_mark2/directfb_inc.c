@@ -1,4 +1,4 @@
-#include <directfb_inc.h>
+#include "directfb_inc.h"
 
 static IDirectFB *dfb = NULL;
 static IDirectFBFont *font = NULL;
