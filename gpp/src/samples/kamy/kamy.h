@@ -213,19 +213,33 @@ KM_FreeBuffer (IN OUT Pvoid * buf) ;
  */
 NORMAL_API
 DSP_STATUS
-KM_OS_init (Void) ;
+KM_OS_init ( IN Char8 * strWidth, IN Char8 * strHeight ) ;
+
 
 /** ============================================================================
- *  @func	KM_displayFrame
+ *  @func	KM_getFrame
  *
- *  @desc	Shows a YUV:422 image on the screen
+ *  @desc	Reads a YUV:422 frame from first available camera
  *
  *  @modif	None.
  *  ============================================================================
  */
 NORMAL_API
 DSP_STATUS
-KM_displayFrame( Uint16 width, Uint16 height, Uchar8 *image_ptr );
+KM_getFrame( Uchar8 **image_ptr ) ;
+
+
+/** ============================================================================
+ *  @func	KM_displayFrame
+ *
+ *  @desc	Shows a YUV:422 frame on the screen
+ *
+ *  @modif	None.
+ *  ============================================================================
+ */
+NORMAL_API
+DSP_STATUS
+KM_displayFrame( Uint16 width, Uint16 height, Uchar8 *image_ptr ) ;
 
 
 /** ============================================================================

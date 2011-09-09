@@ -51,15 +51,16 @@
 
 /*  ----------------------------------- Application Header            */
 #include <kamy.h>
-#include "directfb_inc.h"
-
+#include <directfb_inc.h>
+#include <v4l2_inc.h>
 
 #if defined (__cplusplus)
 extern "C" {
 #endif /* defined (__cplusplus) */
 
+/* extern int fd;*/
 
-/** ============================================================================
+/* ============================================================================
  *  @func   KM_OS_init
  *
  *  @desc   This function creates a mem pool.
@@ -69,14 +70,80 @@ extern "C" {
  */
 NORMAL_API
 DSP_STATUS
-KM_OS_init(Void)
+KM_OS_init( Char8 * strWidth, Char8 * strHeight )
 {
     DSP_STATUS          status = DSP_SOK ;
 
     // Init direct FB
-    directfb_init(0, NULL);
+    directfb_init(0, NULL) ;
+
+    /* Open camera device (/dev/video0) */
+    open_device () ;
+    /* Initialize device */
+    init_device ( atoi (strWidth), atoi (strHeight) ) ;
+    /* Start capturing */
+    start_capturing () ;
+
     return status ;
 }
+
+
+/** ============================================================================
+ *  @func	KM_getFrame
+ *
+ *  @desc	Reads a YUV:422 frame from first available camera
+ *
+ *  @modif	None.
+ *  ============================================================================
+ */
+NORMAL_API
+DSP_STATUS
+KM_getFrame( Uchar8 **image_ptr )
+{
+    DSP_STATUS          status = DSP_SOK ;
+
+    fd_set fds;
+    struct timeval tv;
+    int r;
+    void * ptr;
+
+    for (;;)
+    {
+        FD_ZERO (&fds);
+        FD_SET (fd, &fds);
+
+        /* Timeout. */
+        tv.tv_sec = 2;
+        tv.tv_usec = 0;
+
+        r = select (fd + 1, &fds, NULL, NULL, &tv);
+
+        if (-1 == r)
+        {
+            if (EINTR == errno)
+                continue;
+
+            status = DSP_EFAIL ;
+            break;
+        }
+
+        if (0 == r)
+        {
+            fprintf (stderr, "select timeout\n");
+            status = DSP_EFAIL ;
+            break;
+        }
+
+        if (read_frame (&ptr))
+            break;
+
+        /* EAGAIN - continue select loop. */
+    }
+
+    *image_ptr = ptr;
+    return status;
+}
+
 
 /** ============================================================================
  *  @func	KM_displayFrame
@@ -112,11 +179,15 @@ KM_OS_exit(Void)
     Char8 c = 0 ;
 
     printf("Press enter to exit\n");
-    c = getchar();
+    c = getchar() ;
     while (c != '\n')
-            c = getchar();
+            c = getchar() ;
 
    directfb_release() ;
+
+   stop_capturing () ;
+   uninit_device () ;
+   close_device () ;
 
     return status ;
 }

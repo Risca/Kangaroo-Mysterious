@@ -242,7 +242,7 @@ KM_Create (IN Char8 * dspExecutable,
     /*
      *  OS initialization
      */
-    status = KM_OS_init () ;
+    status = KM_OS_init ( strWidth, strHeight ) ;
 
     /*
      *  Create and initialize the proc object.

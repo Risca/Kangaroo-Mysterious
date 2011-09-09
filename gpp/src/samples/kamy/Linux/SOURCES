@@ -41,5 +41,5 @@
 
 SOURCES :=  kamy_os.c 	\
             main.c		\
-            directfb_inc.c
-                        
+            directfb_inc.c \
+            v4l2_inc.c
