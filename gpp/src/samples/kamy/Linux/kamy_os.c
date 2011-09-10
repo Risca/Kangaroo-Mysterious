@@ -78,11 +78,16 @@ KM_OS_init( Char8 * strWidth, Char8 * strHeight )
     directfb_init(0, NULL) ;
 
     /* Open camera device (/dev/video0) */
-    open_device () ;
+    if (open_device () == 0)
+        return DSP_EFAIL ;
+
     /* Initialize device */
-    init_device ( atoi (strWidth), atoi (strHeight) ) ;
+    if (init_device ( atoi(strWidth), atoi(strHeight) ) == 0)
+        return DSP_EFAIL ;
+
     /* Start capturing */
-    start_capturing () ;
+    if (start_capturing () == 0)
+        return DSP_EFAIL ;
 
     return status ;
 }
