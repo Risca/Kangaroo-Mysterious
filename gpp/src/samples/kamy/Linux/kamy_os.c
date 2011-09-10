@@ -190,6 +190,7 @@ KM_OS_exit(Void)
 
    directfb_release() ;
 
+   /* No error checking... yet! */
    stop_capturing () ;
    uninit_device () ;
    close_device () ;
