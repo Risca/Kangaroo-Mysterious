@@ -30,13 +30,16 @@
 #define CLEAR(x) memset (&(x), 0, sizeof (x))
 extern int fd;
 
-int read_frame(void **ptr);
-void stop_capturing();
-int start_capturing();
-void uninit_device();
-int init_mmap();
-int init_device( unsigned short width, unsigned short height );
-void close_device();
+/* Functions return 0 on success */
 int open_device();
+int init_device( unsigned short width, unsigned short height );
+int init_mmap();
+int start_capturing();
+int read_frame(void **ptr);
+
+/* No error indication upon close */
+void stop_capturing();
+void uninit_device();
+void close_device();
 
 #endif // V4L2_INC_H
