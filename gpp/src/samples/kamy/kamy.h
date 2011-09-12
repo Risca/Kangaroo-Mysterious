@@ -226,7 +226,7 @@ KM_OS_init ( IN Char8 * strWidth, IN Char8 * strHeight ) ;
  */
 NORMAL_API
 DSP_STATUS
-KM_getFrame( Uchar8 **image_ptr ) ;
+KM_getFrame( Uint8 **image_ptr ) ;
 
 
 /** ============================================================================

@@ -53,6 +53,7 @@
 #include <kamy.h>
 #include <directfb_inc.h>
 #include <v4l2_inc.h>
+#include <conv.h>
 
 #if defined (__cplusplus)
 extern "C" {
@@ -72,23 +73,28 @@ NORMAL_API
 DSP_STATUS
 KM_OS_init( Char8 * strWidth, Char8 * strHeight )
 {
+    KM_0Print ("Entered KM_OS_init ()\n") ;
     DSP_STATUS          status = DSP_SOK ;
 
-    // Init direct FB
+    /* Init direct FB */
     directfb_init(0, NULL) ;
+    printf("DirectFB initialized\n");
 
     /* Open camera device (/dev/video0) */
     if (open_device () == 0)
-        return DSP_EFAIL ;
+        status = DSP_EFAIL ;
 
     /* Initialize device */
-    if (init_device ( atoi(strWidth), atoi(strHeight) ) == 0)
-        return DSP_EFAIL ;
+    if (status == DSP_SOK && 
+        init_device ( atoi(strWidth), atoi(strHeight) ) == 0)
+        status=DSP_EFAIL ;
 
     /* Start capturing */
-    if (start_capturing () == 0)
-        return DSP_EFAIL ;
+    if (status == DSP_SOK && 
+        start_capturing () == 0)
+        status = DSP_EFAIL ;
 
+    KM_0Print ("Leaving KM_OS_init ()\n") ;
     return status ;
 }
 
@@ -103,14 +109,14 @@ KM_OS_init( Char8 * strWidth, Char8 * strHeight )
  */
 NORMAL_API
 DSP_STATUS
-KM_getFrame( Uchar8 **image_ptr )
+KM_getFrame( Uint8 **image_ptr )
 {
     DSP_STATUS          status = DSP_SOK ;
 
     fd_set fds;
     struct timeval tv;
     int r;
-    void * ptr;
+    Uint8 * ptr = 0 ;
 
     for (;;)
     {
@@ -139,13 +145,16 @@ KM_getFrame( Uchar8 **image_ptr )
             break;
         }
 
-        if (read_frame (&ptr))
+        /* Change ptr to point to next frame */
+        if (read_frame ((void**)&ptr))
             break;
 
         /* EAGAIN - continue select loop. */
     }
 
+    /* Update pointer address */
     *image_ptr = ptr;
+
     return status;
 }
 
@@ -183,17 +192,19 @@ KM_OS_exit(Void)
     DSP_STATUS status = DSP_SOK ;
     Char8 c = 0 ;
 
+    /*
     printf("Press enter to exit\n");
     c = getchar() ;
     while (c != '\n')
             c = getchar() ;
+    */
+    
+    directfb_release() ;
 
-   directfb_release() ;
-
-   /* No error checking... yet! */
-   stop_capturing () ;
-   uninit_device () ;
-   close_device () ;
+    /* No error checking... yet! */
+    stop_capturing () ;
+    uninit_device () ;
+    close_device () ;
 
     return status ;
 }

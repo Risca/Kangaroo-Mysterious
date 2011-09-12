@@ -367,7 +367,7 @@ KM_Execute (IN Uint32  dspAddress,
 {
     DSP_STATUS      status   = DSP_SOK ;
     Uint32 *        bufIn    = NULL ;
-    Uint32 *        bufOut   = NULL ;
+    Uint8 *         bufOut   = NULL ;
     Uint8 *         ptr8     = NULL ;
     Uint8           processorId = 0 ;
     Uint32          bufferSize  = 2*width*height*sizeof(unsigned char);
@@ -378,16 +378,10 @@ KM_Execute (IN Uint32  dspAddress,
 
     KM_0Print ("Entered KM_Execute ()\n") ;
 
+    /* Buffer allocation of bufOut is handled by KM_OS_init */
     status = KM_AllocateBuffer (bufferSize, (Pvoid *) &bufIn) ;
-    if (DSP_SUCCEEDED (status)) {
-        status = KM_AllocateBuffer (bufferSize, (Pvoid *) &bufOut) ;
-        if (DSP_FAILED (status)) {
-            KM_1Print ("Buffer Allocation Failed. Status: [0x%x]\n",
-                              status) ;
-        }
-    }
-    else {
-       KM_1Print ("Buffer Allocation Failed. Status: [0x%x]\n", status) ;
+    if (DSP_FAILED (status)) {
+        KM_1Print ("Buffer Allocation Failed. Status: [0x%x]\n", status) ;
     }
 
     for (i = 1 ;
@@ -417,9 +411,7 @@ KM_Execute (IN Uint32  dspAddress,
         /*  Prime the data buffer for the sample application
          *  - Initialize the buffer to a sample image
          */
-        ptr8  = (Uint8 *)  (bufOut) ;
-        gengrad (width, height, ptr8) ;
-/*        genbars (width, height, ptr8) ; */
+        status = KM_getFrame(&bufOut) ;
 
         /*  Write the data buffer to the DSP side */
         if (DSP_SUCCEEDED (status)) {
@@ -428,6 +420,10 @@ KM_Execute (IN Uint32  dspAddress,
                 KM_1Print ("PROC_write Failed. Status: [0x%x]\n",
                                   status) ;
             }
+        }
+        else {
+            KM_1Print ("KM_displayFrame () Failed. Status: [0x%x]\n",
+                                  status) ;
         }
 
         /*  Inform the DSP side that the data buffer has been written */
@@ -489,10 +485,6 @@ KM_Execute (IN Uint32  dspAddress,
 
     if (bufIn != NULL) {
         KM_FreeBuffer ((Pvoid *) &bufIn) ;
-    }
-
-    if (bufOut != NULL) {
-        KM_FreeBuffer ((Pvoid *) &bufOut) ;
     }
 
     KM_0Print ("Leaving KM_Execute ()\n") ;
