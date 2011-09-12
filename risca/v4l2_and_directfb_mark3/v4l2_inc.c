@@ -9,7 +9,7 @@ struct buffer
 int                     fd              = -1;
 struct buffer *         buffers         = NULL;
 static unsigned int     n_buffers       = 0;
-char *                  dev_name        = "/dev/video1";
+char *                  dev_name        = "/dev/video0";
 
 int errno_exit(const char *s)
 {
