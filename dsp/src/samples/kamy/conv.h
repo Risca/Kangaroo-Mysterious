@@ -26,7 +26,7 @@ typedef short int int16;
 #define BORDER		2
 
 /** ============================================================================
- *  @name   FilterAttrs
+ *  @name   ImageAttrs
  *
  *  @desc   Structure used to pass image attributes to filter functions
  *
