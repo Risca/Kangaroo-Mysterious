@@ -13,10 +13,7 @@ extern "C"{
 #endif // __cplusplus
 
 // Typedefs
-typedef unsigned char uint8;
-typedef unsigned int uint32;
-typedef unsigned short int uint16;
-typedef short int int16;
+#include <std.h>
 
 //#define IMG_WIDTH 	640
 //#define IMG_HEIGHT 	480
@@ -58,13 +55,21 @@ typedef struct ImageAttrs_tag {
 
 typedef int (*KM_Filter)(ImageAttrs*) ;
 
+/** ============================================================================
+ *  @name   KM_Filters
+ *
+ *  @desc   Array of KM_Filter function (pointers)
+ *  ============================================================================
+ */
+extern KM_Filter KM_Filters [] ;
+
 // Function prototypes
-//int dummy(ImageAttrs *attrs);
+int dummy(ImageAttrs *attrs);
 
 /*
  * Convolves an image with a filter kernel. Currently blurs the image.
  */
-void convimg(unsigned char* inImg_ptr, unsigned char* outImg_ptr, uint16 img_width, uint16 img_height, unsigned char* kernel_ptr);
+void convimg(unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 img_width, Uint16 img_height, unsigned char* kernel_ptr);
 
 /** ============================================================================
  *  @func   unsharpenMask
@@ -97,7 +102,7 @@ void convimg(unsigned char* inImg_ptr, unsigned char* outImg_ptr, uint16 img_wid
  *  @author Daniel Josefsson
  *  ============================================================================
  */
-void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, uint16 img_width, uint16 img_height, unsigned char* kernel_ptr );
+void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 img_width, Uint16 img_height, unsigned char* kernel_ptr );
 
 #ifdef __cplusplus
 }

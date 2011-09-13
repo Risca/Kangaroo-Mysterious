@@ -10,11 +10,36 @@
 #include <stdint.h>
 #include <string.h>
 
-void convimg(unsigned char* inImg_ptr, unsigned char* outImg_ptr, uint16 img_width, uint16 img_height, unsigned char* kernel_ptr)
+
+/** ============================================================================
+ *  @const  NUM_FILTERS
+ *
+ *  @desc   Number of filters configured in the system.
+ *  ============================================================================
+ */
+#define NUM_FILTERS         1
+
+/** ============================================================================
+ *  @name   KM_Filters
+ *
+ *  @desc   Array of KM_Filter function (pointers)
+ *  ============================================================================
+ */
+KM_Filter KM_Filters [NUM_FILTERS] = {
+    &dummy
+};
+
+int dummy (ImageAttrs *attrs)
 {
-	uint16 col, row, conv_row, conv_col;
-	int16 x, y;
-	uint32 conv_sum = 0;
+    /* I am a dummy function */
+    return 0;
+}
+
+void convimg(unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 img_width, Uint16 img_height, unsigned char* kernel_ptr)
+{
+	Uint16 col, row, conv_row, conv_col;
+	Int16 x, y;
+	Uint32 conv_sum = 0;
 	(void)kernel_ptr;
 
 	// Copy input to output (to get all the chroma pixels right)
@@ -47,9 +72,9 @@ void convimg(unsigned char* inImg_ptr, unsigned char* outImg_ptr, uint16 img_wid
 	return;
 }
 
-void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, uint16 img_width, uint16 img_height, unsigned char* kernel_ptr )
+void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 img_width, Uint16 img_height, unsigned char* kernel_ptr )
 {
-	uint16 col, row;
+	Uint16 col, row;
 	//The two image pointers are switched to make the inpit image blurry.
 	convimg( outImg_ptr, inImg_ptr, img_width, img_height, kernel_ptr);
 	//Since a border is used in convimg will this affect which pixels this filter will use aswell.
