@@ -270,7 +270,7 @@ int init_device( unsigned short width, unsigned short height )
     fmt.fmt.pix.width       = width;
     fmt.fmt.pix.height      = height;
     fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_YUYV;
-    fmt.fmt.pix.field       = V4L2_FIELD_INTERLACED;
+    fmt.fmt.pix.field       = V4L2_FIELD_NONE;
 
     if (-1 == xioctl (fd, VIDIOC_S_FMT, &fmt))
         return errno_exit ("VIDIOC_S_FMT");
