@@ -83,39 +83,6 @@ typedef struct SampleMessage_tag {
     Uint32         kamybar        ;
 } SampleMessage ;
 
-/** ============================================================================
- *  @name   FilterAttrs
- *
- *  @desc   Structure used to pass image attributes to filter functions
- *
- *  @field  img
- *              Pointer to image
- *  @field  width
- *              Width of image
- *  @field  height
- *              Height of image
- *  @field  kernelSize
- *              Size of filter kernel
- *  @field  offset
- *              Offset to first byte to work with in image
- *  @field  spacing
- *              Length between bytes to work with
- *  @field  orientation
- *              0 == horizontal, 1 == vertical
- *  ============================================================================
- */
-typedef struct ImageAttrs_tag {
-    Uint8 *  img         ;
-    Uint16   width       ;
-    Uint16   height      ;
-    Uint16   kernelSize  ;
-    Uint16   offset      ;
-    Uint16   spacing     ;
-    Uint16   orientation ;
-} ImageAttrs ;
-
-typedef int (*KM_Filter)(ImageAttrs*) ;
-
 #ifdef __cplusplus
 }
 #endif /* extern "C" */
