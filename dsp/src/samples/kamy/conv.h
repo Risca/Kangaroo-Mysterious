@@ -12,6 +12,7 @@
 extern "C"{
 #endif // __cplusplus
 
+#include <filters.h>
 // Typedefs
 #include <std.h>
 
@@ -22,71 +23,8 @@ extern "C"{
 #define KERN_MAX_INDEX (KERNEL_SIZE-1)/2
 #define BORDER		2
 
-/* 
- * Filter codes
- */
-#define F_BYPASS 0
-#define F_BLUR   1
-/* etc */
-
-/** ============================================================================
- *  @name   ImageAttrs
- *
- *  @desc   Structure used to pass image attributes to filter functions
- *
- *  @field  img
- *              Pointer to image
- *  @field  width
- *              Width of image
- *  @field  height
- *              Height of image
- *  @field  kernelSize
- *              Size of filter kernel
- *  @field  offset
- *              Offset to first byte to work with in image
- *  @field  spacing
- *              Length between bytes to work with
- *  @field  orientation
- *              0 == horizontal, 1 == vertical
- *  ============================================================================
- */
-struct ImageAttrs_tag {
-    Uint8 *  img         ;
-    Uint16   width       ;
-    Uint16   height      ;
-    Uint16   kernelSize  ;
-    Uint16   offset      ;
-    Uint16   spacing     ;
-    Uint16   orientation ;
-} ;
-
-/** ============================================================================
- *  @name   ImageAttrs
- *
- *  @desc   Global structure to hold information on image and filter attributes
- *  ============================================================================
- */
-extern struct ImageAttrs_tag ImageAttrs ;
-
-/** ============================================================================
- *  @name   KM_Filter
- *
- *  @desc   Prototupe for filter functions
- *  ============================================================================
- */
-typedef int (*KM_Filter)() ;
-
-/** ============================================================================
- *  @name   KM_Filters
- *
- *  @desc   Array of KM_Filter function (pointers)
- *  ============================================================================
- */
-extern KM_Filter KM_Filters [] ;
-
 // Function prototypes
-int dummy();
-int dummy2();
+int bypass_func (ImageAttrs *attrs) ;
 
 /*
  * Convolves an image with a filter kernel. Currently blurs the image.

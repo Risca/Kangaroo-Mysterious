@@ -64,6 +64,7 @@
 /*  ----------------------------------- Sample Headers              */
 #include <tskKamy.h>
 #include <conv.h>
+#include <filters.h>
 #include <kamy.h>
 #include <kamy_config.h>
 
@@ -83,22 +84,6 @@
  *  ============================================================================
  */
 extern LOG_Obj trace ;
-
-/** ============================================================================
- *  @name   yuvWidth
- *
- *  @desc   Width of YUV image to process
- *  ============================================================================
- */
-extern Uint32 yuvWidth ;
-
-/** ============================================================================
- *  @name   yuvHeight
- *
- *  @desc   Height of YUV image to process
- *  ============================================================================
- */
-extern Uint32 yuvHeight ;
 
 /** ============================================================================
  *  @name   numTransfers
@@ -179,8 +164,6 @@ Int TSKKM_create(TSKKM_TransferInfo ** infoPtr)
     if (status == SYS_OK) {
         /* Filling up the transfer info structure */
         info->numTransfers  = numTransfers ;
-        info->width         = yuvWidth ;
-        info->height        = yuvHeight ;
     }
 
     return status ;
@@ -201,6 +184,7 @@ Int TSKKM_create(TSKKM_TransferInfo ** infoPtr)
 Int TSKKM_execute(TSKKM_TransferInfo * info)
 {
     Int             status    = SYS_OK;
+    KM_Filter       filter    = KM_Filters[filterId];
     Uint8 *         readBuf ;
     Uint8 *         writeBuf ;
     Uint32          size ;
@@ -224,7 +208,10 @@ Int TSKKM_execute(TSKKM_TransferInfo * info)
             HAL_cacheInv ((Ptr) readBuf, size) ;
 
             /* Do DSP stuff here! */
-            convimg (readBuf, writeBuf, info->width, info->height, 0);
+/*            convimg (readBuf, writeBuf, info->width, info->height, 0); */
+            filter.attrs.img  = readBuf ;
+            filter.attrs.img2 = writeBuf ;
+            (*filter.func) (&filter.attrs) ;
 
             HAL_cacheWbInv ((Ptr)(msg->dspWriteAddr), size) ;
 

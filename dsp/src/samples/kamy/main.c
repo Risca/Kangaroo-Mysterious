@@ -58,6 +58,8 @@
 
 /*  ----------------------------------- Sample Headers              */
 #include <kamy.h>
+#include <conv.h>
+#include <filters.h>
 #include <tskKamy.h>
 #include <kamy_config.h>
 
@@ -71,29 +73,12 @@
 #define FILEID             FID_APP_C
 
 /** ============================================================================
- *  @name   yuvWidth
- *
- *  @desc   Width of YUV image to process
- *  ============================================================================
- */
-Uint32 yuvWidth ;
-
-/** ============================================================================
- *  @name   yuvHeight
- *
- *  @desc   Height of YUV image to process
- *  ============================================================================
- */
-Uint32 yuvHeight ;
-
-/** ============================================================================
  *  @name   numTransfers
  *
  *  @desc   Iterations of data transfer to be done by the application.
  *  ============================================================================
  */
 Uint32 numTransfers ;
-
 
 /** ============================================================================
  *  @name   trace
@@ -154,6 +139,8 @@ static Int tskKamy ();
  */
 Void main(Int argc, Char *argv[])
 {
+    Uint32         width  = 0 ;
+    Uint32         height = 0 ;
     Int            status = SYS_OK ;
     /* TSK based kamy application */
     TSK_Handle     tskKamyTask ;
@@ -165,9 +152,14 @@ Void main(Int argc, Char *argv[])
     numTransfers = atol (argv[0]) ;
 
     /* Get width of YUV image */
-    yuvWidth = atol (argv[1]) ;
+    width = atol (argv[1]) ;
     /* Get height of YUV image */
-    yuvHeight = atol (argv[2]) ;
+    height = atol (argv[2]) ;
+
+    /* Get what filter to use and populate missing attributes */
+    filterId = atol (argv[3]) ;
+    KM_Filters[filterId].attrs.width = width;
+    KM_Filters[filterId].attrs.height = height;
 
     if (status == SYS_OK) {
         /* Creating task for TSKKM application */

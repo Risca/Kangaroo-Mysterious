@@ -10,43 +10,10 @@
 #include <stdint.h>
 #include <string.h>
 
-
-/** ============================================================================
- *  @const  NUM_FILTERS
- *
- *  @desc   Number of filters configured in the system.
- *  ============================================================================
- */
-#define NUM_FILTERS         2
-
-/** ============================================================================
- *  @name   KM_Filters
- *
- *  @desc   Array of KM_Filter function (pointers)
- *  ============================================================================
- */
-KM_Filter KM_Filters [NUM_FILTERS] = {
-    &dummy,
-    &dummy2
-};
-
-/** ============================================================================
- *  @name   ImageAttrs
- *
- *  @desc   Global structure to hold information on image and filter attributes
- *  ============================================================================
- */
-struct ImageAttrs_tag ImageAttrs  = {NULL,0,0,0,0,0,0};
-
-int dummy ()
+int bypass_func (ImageAttrs *attrs)
 {
     /* I am a dummy function */
-    return 0;
-}
-
-int dummy2 ()
-{
-    /* I am a second dummy function */
+    memcpy(attrs->img2, attrs->img, attrs->height * attrs->width *2) ;
     return 0;
 }
 
