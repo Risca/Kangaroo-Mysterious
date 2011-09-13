@@ -30,13 +30,21 @@ KM_Filter KM_Filters [NUM_FILTERS] = {
     &dummy2
 };
 
-int dummy (ImageAttrs *attrs)
+/** ============================================================================
+ *  @name   ImageAttrs
+ *
+ *  @desc   Global structure to hold information on image and filter attributes
+ *  ============================================================================
+ */
+struct ImageAttrs_tag ImageAttrs  = {NULL,0,0,0,0,0,0};
+
+int dummy ()
 {
     /* I am a dummy function */
     return 0;
 }
 
-int dummy2 (ImageAttrs *attrs)
+int dummy2 ()
 {
     /* I am a second dummy function */
     return 0;

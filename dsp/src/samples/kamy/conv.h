@@ -22,6 +22,13 @@ extern "C"{
 #define KERN_MAX_INDEX (KERNEL_SIZE-1)/2
 #define BORDER		2
 
+/* 
+ * Filter codes
+ */
+#define F_BYPASS 0
+#define F_BLUR   1
+/* etc */
+
 /** ============================================================================
  *  @name   ImageAttrs
  *
@@ -43,7 +50,7 @@ extern "C"{
  *              0 == horizontal, 1 == vertical
  *  ============================================================================
  */
-typedef struct ImageAttrs_tag {
+struct ImageAttrs_tag {
     Uint8 *  img         ;
     Uint16   width       ;
     Uint16   height      ;
@@ -51,7 +58,15 @@ typedef struct ImageAttrs_tag {
     Uint16   offset      ;
     Uint16   spacing     ;
     Uint16   orientation ;
-} ImageAttrs ;
+} ;
+
+/** ============================================================================
+ *  @name   ImageAttrs
+ *
+ *  @desc   Global structure to hold information on image and filter attributes
+ *  ============================================================================
+ */
+extern struct ImageAttrs_tag ImageAttrs ;
 
 /** ============================================================================
  *  @name   KM_Filter
@@ -59,7 +74,7 @@ typedef struct ImageAttrs_tag {
  *  @desc   Prototupe for filter functions
  *  ============================================================================
  */
-typedef int (*KM_Filter)(ImageAttrs*) ;
+typedef int (*KM_Filter)() ;
 
 /** ============================================================================
  *  @name   KM_Filters
@@ -70,8 +85,8 @@ typedef int (*KM_Filter)(ImageAttrs*) ;
 extern KM_Filter KM_Filters [] ;
 
 // Function prototypes
-int dummy(ImageAttrs *attrs);
-int dummy2(ImageAttrs *attrs);
+int dummy();
+int dummy2();
 
 /*
  * Convolves an image with a filter kernel. Currently blurs the image.
