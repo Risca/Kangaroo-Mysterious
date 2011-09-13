@@ -17,7 +17,7 @@
  *  @desc   Number of filters configured in the system.
  *  ============================================================================
  */
-#define NUM_FILTERS         1
+#define NUM_FILTERS         2
 
 /** ============================================================================
  *  @name   KM_Filters
@@ -26,12 +26,19 @@
  *  ============================================================================
  */
 KM_Filter KM_Filters [NUM_FILTERS] = {
-    &dummy
+    &dummy,
+    &dummy2
 };
 
 int dummy (ImageAttrs *attrs)
 {
     /* I am a dummy function */
+    return 0;
+}
+
+int dummy2 (ImageAttrs *attrs)
+{
+    /* I am a second dummy function */
     return 0;
 }
 

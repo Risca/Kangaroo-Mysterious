@@ -71,6 +71,7 @@ extern KM_Filter KM_Filters [] ;
 
 // Function prototypes
 int dummy(ImageAttrs *attrs);
+int dummy2(ImageAttrs *attrs);
 
 /*
  * Convolves an image with a filter kernel. Currently blurs the image.
