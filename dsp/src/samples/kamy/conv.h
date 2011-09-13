@@ -53,6 +53,12 @@ typedef struct ImageAttrs_tag {
     Uint16   orientation ;
 } ImageAttrs ;
 
+/** ============================================================================
+ *  @name   KM_Filter
+ *
+ *  @desc   Prototupe for filter functions
+ *  ============================================================================
+ */
 typedef int (*KM_Filter)(ImageAttrs*) ;
 
 /** ============================================================================
