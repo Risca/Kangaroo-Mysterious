@@ -21,12 +21,45 @@ typedef short int int16;
 //#define IMG_WIDTH 	640
 //#define IMG_HEIGHT 	480
 
-#define KERNEL_SIZE	5
+#define KERNEL_SIZE	1
 #define KERN_MAX_INDEX (KERNEL_SIZE-1)/2
 #define BORDER		2
 
+/** ============================================================================
+ *  @name   FilterAttrs
+ *
+ *  @desc   Structure used to pass image attributes to filter functions
+ *
+ *  @field  img
+ *              Pointer to image
+ *  @field  width
+ *              Width of image
+ *  @field  height
+ *              Height of image
+ *  @field  kernelSize
+ *              Size of filter kernel
+ *  @field  offset
+ *              Offset to first byte to work with in image
+ *  @field  spacing
+ *              Length between bytes to work with
+ *  @field  orientation
+ *              0 == horizontal, 1 == vertical
+ *  ============================================================================
+ */
+typedef struct ImageAttrs_tag {
+    Uint8 *  img         ;
+    Uint16   width       ;
+    Uint16   height      ;
+    Uint16   kernelSize  ;
+    Uint16   offset      ;
+    Uint16   spacing     ;
+    Uint16   orientation ;
+} ImageAttrs ;
+
+typedef int (*KM_Filter)(ImageAttrs*) ;
 
 // Function prototypes
+//int dummy(ImageAttrs *attrs);
 
 /*
  * Convolves an image with a filter kernel. Currently blurs the image.
