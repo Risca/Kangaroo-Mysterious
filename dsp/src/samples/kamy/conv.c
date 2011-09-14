@@ -131,18 +131,11 @@ int convBox1D (FilterAttrs * attrs)
     	    // Check if the value is out of range
     	    if ( inner <= kernelSideWidth )
     	    {
-    	        // Remove the min border value.
-/*                if (convSum < offsetImgPtr[ indexOffsetOuter ])
-                    convSum = 0;
-                else*/
-        	    	convSum -= offsetImgPtr[ indexOffsetOuter ];
+                convSum -= offsetImgPtr[ indexOffsetOuter ];
     	    }
     	    else
     	    {
-                /*if (convSum < offsetImgPtr[ indexOffsetOuter + nextPixelInner*( inner - kernelSideWidth - 1) ])
-                    convSum = 0;
-                else*/
-        	        convSum -= offsetImgPtr[ indexOffsetOuter + nextPixelInner*( inner - kernelSideWidth - 1) ]-kernelSideWidth;
+                convSum -= offsetImgPtr[ indexOffsetOuter + nextPixelInner*( inner - kernelSideWidth - 1) ]-4;
     	    }
     	    // Store the value.
     	    offsetImgPtr [ indexOffsetOuter + indexOffsetInner ] = convSum/attrs->kernelSize;
