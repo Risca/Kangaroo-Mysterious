@@ -29,6 +29,7 @@ extern "C"{
 int bypass_func (FilterAttrs *attrs) ;
 int convimg_func (FilterAttrs *attrs) ;
 int convBox1D (FilterAttrs *attrs) ;
+int BWFilter_func( FilterAttrs *a ) ;
 
 /** ============================================================================
  *  @func   unsharpenMask

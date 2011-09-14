@@ -24,7 +24,7 @@ Uint8 filterId ;
  *  @desc   Number of filters configured in the system.
  *  ============================================================================
  */
-#define NUM_FILTERS         2
+#define NUM_FILTERS         3
 
 /** ============================================================================
  *  @name   KM_Filters
@@ -52,6 +52,18 @@ KM_Filter KM_Filters [NUM_FILTERS] = {
             0                 /* Orientation      */
         },
         &convBox1D            /* Filter function  */
+    },
+    {   /* B/W filter */
+        {
+            NULL, 0, 0, NULL, /* Image attributes */
+            0,                /* Kernel size      */
+            0,                /* Offset           */
+            0,                /* Spacing          */
+            0                 /* Orientation      */
+        },
+        &BWFilter_func        /* Filter function  */
     }
+
+
 };
 
