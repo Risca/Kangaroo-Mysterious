@@ -26,24 +26,25 @@ int convimg_func (FilterAttrs *attrs)
 	Uint16 col, row, conv_row, conv_col;
 	Int16 x, y;
 	Uint32 conv_sum = 0;
-    Uint8 *  inImg_ptr  = attrs->imgIn  ;
-    Uint8 *  outImg_ptr = attrs->imgOut ;
-    Uint16 img_width    = attrs->width  ;
-    Uint16 img_height   = attrs->height ;
+    Uint8 * inImg_ptr      = attrs->imgIn            ;
+    Uint8 * outImg_ptr     = attrs->imgOut           ;
+    Uint16  img_width      = attrs->width            ;
+    Uint16  img_height     = attrs->height           ;
+    Uint8   kern_max_index = (attrs->kernelSize-1)/2 ;
 
 	// Copy input to output (to get all the chroma pixels right)
 	memcpy(outImg_ptr, inImg_ptr, img_height * img_width * 2);
 
-	for (row = KERN_MAX_INDEX; row < (img_height - KERN_MAX_INDEX); row++) {
-		for (col = KERN_MAX_INDEX; col < (img_width - KERN_MAX_INDEX); col++) {
+	for (row = kern_max_index; row < (img_height - kern_max_index); row++) {
+		for (col = kern_max_index; col < (img_width - kern_max_index); col++) {
 			// Now a particular pixel is selected
 			if (row < BORDER || row > img_height - BORDER || col < BORDER
 					|| col > img_width - BORDER) {
 				outImg_ptr[row * 2 * img_width + 2 * col] = 255;
 			} else {
 				// Perform convolution for this pixel
-				for (x = -KERN_MAX_INDEX; x <= KERN_MAX_INDEX; x++) {
-					for (y = -KERN_MAX_INDEX; y <= KERN_MAX_INDEX; y++) {
+				for (x = -kern_max_index; x <= kern_max_index; x++) {
+					for (y = -kern_max_index; y <= kern_max_index; y++) {
 						conv_row = row + x;
 						conv_col = col + y;
 						conv_sum += inImg_ptr[conv_row * 2 * img_width + 2
@@ -51,7 +52,7 @@ int convimg_func (FilterAttrs *attrs)
 					}
 				}
 				// Now this pixel is done, divide and save to output buffer
-				outImg_ptr[row * 2 * img_width + 2 * col] = (conv_sum / (KERNEL_SIZE * KERNEL_SIZE));
+				outImg_ptr[row * 2 * img_width + 2 * col] = (conv_sum / (attrs->kernelSize * attrs->kernelSize));
 				conv_sum = 0;
 			}
 		}
@@ -133,8 +134,8 @@ void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 
 	//The two image pointers are switched to make the inpit image blurry.
 	convimg( outImg_ptr, inImg_ptr, img_width, img_height, kernel_ptr);
 	//Since a border is used in convimg will this affect which pixels this filter will use aswell.
-	for (row = KERN_MAX_INDEX; row < (img_height - KERN_MAX_INDEX); row++) {
-		for (col = KERN_MAX_INDEX; col < (img_width - KERN_MAX_INDEX); col++) {
+	for (row = kern_max_index; row < (img_height - kern_max_index); row++) {
+		for (col = kern_max_index; col < (img_width - kern_max_index); col++) {
 			// Now a particular pixel is selected
 			if (row > BORDER && row < img_height - BORDER && col > BORDER
 					&& col < img_width - BORDER) {

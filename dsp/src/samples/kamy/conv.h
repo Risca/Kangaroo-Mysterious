@@ -16,13 +16,7 @@ extern "C"{
 // Typedefs
 #include <std.h>
 
-//#define IMG_WIDTH 	640
-//#define IMG_HEIGHT 	480
-
-#define KERNEL_SIZE	1
-#define KERN_MAX_INDEX (KERNEL_SIZE-1)/2
 #define BORDER		2
-
 #define MACROPIXEL_SIZE 4;
 
 // Function prototypes
