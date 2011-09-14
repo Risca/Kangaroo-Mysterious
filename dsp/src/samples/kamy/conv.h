@@ -61,7 +61,7 @@ int convBox1D (FilterAttrs *attrs) ;
  *  @author Daniel Josefsson
  *  ============================================================================
  */
-void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 img_width, Uint16 img_height, unsigned char* kernel_ptr );
+//void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 img_width, Uint16 img_height, unsigned char* kernel_ptr );
 
 #ifdef __cplusplus
 }

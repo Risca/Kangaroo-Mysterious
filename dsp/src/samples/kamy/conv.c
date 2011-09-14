@@ -123,7 +123,7 @@ int convBox1D (FilterAttrs * attrs)
     }
     return SYS_OK;
 }
-
+/*
 void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 img_width, Uint16 img_height, unsigned char* kernel_ptr )
 {
 	Uint16 col, row;
@@ -142,3 +142,4 @@ void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 
 	}
 
 }
+*/
