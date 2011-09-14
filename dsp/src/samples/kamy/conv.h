@@ -23,9 +23,12 @@ extern "C"{
 #define KERN_MAX_INDEX (KERNEL_SIZE-1)/2
 #define BORDER		2
 
+#define MACROPIXEL_SIZE 4;
+
 // Function prototypes
 int bypass_func (FilterAttrs *attrs) ;
 int convimg_func (FilterAttrs *attrs) ;
+int convBox1D (FilterAttrs *attrs) ;
 
 /** ============================================================================
  *  @func   unsharpenMask
