@@ -18,10 +18,14 @@
 
 
 // Own includes
+#include "conv_old.h"
+//#include "filters.h"
 #include "conv.h"
 
 
 using namespace std;
+
+
 
 int main(int argc, char* argv[]) {
 	// Check for correct number of input arguments
@@ -49,9 +53,11 @@ int main(int argc, char* argv[]) {
 	int filesize = results.st_size;
 	cout << "File size: " << filesize << " bytes" << endl;
 
-	// Allocate space for infile
-	Uint8* pxData;
+	// Allocate space for infile and output from filter
+	Uint8* pxData, *outImg;
 	pxData = new Uint8[filesize];
+	outImg = new Uint8[height*width*2];
+
 	infile.read((char*)pxData, filesize);
 
 
@@ -65,10 +71,33 @@ int main(int argc, char* argv[]) {
 	image->planes = 1;
 	Uint16 pitch = 1280;
 	image->pitches = &pitch;
-	//image->pixels = &pxData;
-	unsigned char *imgptr = genimg(640, 480);
-	//cout << (unsigned long int)imgptr << endl;
-	image->pixels = &imgptr;
+	unsigned char *imgptr = genbars(640, 480);
+	imgptr = pxData;
+	//imgptr = convimg(imgptr, NULL);
+
+
+
+	// Do stuff here
+
+	FilterAttrs a;
+	a.imgIn = imgptr;
+	a.imgOut = outImg;
+	a.width = 640;
+	a.height = 480;
+	a.kernelSize = 11;
+	a.offset = 0;
+	a.spacing = 4;
+	a.orientation = 0;
+
+	convBox1D(&a);
+	a.orientation = 1;
+	a.imgIn = a.imgOut;
+	a.imgOut = imgptr;
+	convBox1D(&a);
+
+
+
+	image->pixels = &(a.imgOut);
 
 	SDL_Rect rect;
 	rect.x = 0;
