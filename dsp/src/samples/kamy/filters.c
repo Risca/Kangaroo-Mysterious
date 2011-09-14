@@ -24,7 +24,7 @@ Uint8 filterId ;
  *  @desc   Number of filters configured in the system.
  *  ============================================================================
  */
-#define NUM_FILTERS         4
+#define NUM_FILTERS         6
 
 /** ============================================================================
  *  @name   KM_Filters
@@ -35,7 +35,7 @@ Uint8 filterId ;
 KM_Filter KM_Filters [NUM_FILTERS] = {
     {   /* Bypass filter */
         {
-            NULL, 0, 0, NULL, /* Image attributes */
+            NULL, NULL, 0, 0, /* Image attributes */
             0,                /* Kernel size      */
             0,                /* Offset           */
             0,                /* Spacing          */
@@ -43,9 +43,9 @@ KM_Filter KM_Filters [NUM_FILTERS] = {
         },
         &bypass_func          /* Filter function  */
     },
-    {   /* Daniels 1D fast convolution blur */
+    {   /* Daniel's 1D fast vertical blur */
         {
-            NULL, 0, 0, NULL, /* Image attributes */
+            NULL, NULL, 0, 0, /* Image attributes */
             5,                /* Kernel size      */
             0,                /* Offset           */
             2,                /* Spacing          */
@@ -53,9 +53,29 @@ KM_Filter KM_Filters [NUM_FILTERS] = {
         },
         &convBox1D            /* Filter function  */
     },
+    {   /* Daniel's 1D fast horizontal blur */
+        {
+            NULL, NULL, 0, 0, /* Image attributes */
+            5,                /* Kernel size      */
+            0,                /* Offset           */
+            2,                /* Spacing          */
+            1                 /* Orientation      */
+        },
+        &convBox1D            /* Filter function  */
+    },
+    {   /* Daniel's 2D fast blur */
+        {
+            NULL, NULL, 0, 0, /* Image attributes */
+            5,                /* Kernel size      */
+            0,                /* Offset           */
+            2,                /* Spacing          */
+            0                 /* Orientation      */
+        },
+        &convBox2D            /* Filter function  */
+    },
     {   /* B/W filter */
         {
-            NULL, 0, 0, NULL, /* Image attributes */
+            NULL, NULL, 0, 0, /* Image attributes */
             0,                /* Kernel size      */
             0,                /* Offset           */
             0,                /* Spacing          */
@@ -65,7 +85,7 @@ KM_Filter KM_Filters [NUM_FILTERS] = {
     },
     {   /* Legacy blur filter */
         {
-            NULL, 0, 0, NULL, /* Image attributes */
+            NULL, NULL, 0, 0, /* Image attributes */
             5,                /* Kernel size      */
             0,                /* Offset           */
             0,                /* Spacing          */
