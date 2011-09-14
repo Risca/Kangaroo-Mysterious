@@ -148,18 +148,21 @@ Void main(Int argc, Char *argv[])
     /* Initialize DSP/BIOS LINK. */
     DSPLINK_init () ;
 
-    /* Get the number of transfers to be done by the application */
-    numTransfers = atol (argv[0]) ;
-
-    /* Get width of YUV image */
-    width = atol (argv[1]) ;
-    /* Get height of YUV image */
-    height = atol (argv[2]) ;
-
-    /* Get what filter to use and populate missing attributes */
-    filterId = atol (argv[3]) ;
-    KM_Filters[filterId].attrs.width = width;
-    KM_Filters[filterId].attrs.height = height;
+    /* Check number of arguments */
+    if (argc < 4)
+        status = SYS_EINVAL;
+    else {
+        /* Get the number of transfers to be done by the application */
+        numTransfers = atol (argv[0]) ;
+        /* Get width of YUV image */
+        width = atol (argv[1]) ;
+        /* Get height of YUV image */
+        height = atol (argv[2]) ;
+        /* Get what filter to use and populate missing attributes */
+        filterId = atol (argv[3]) ;
+        KM_Filters[filterId].attrs.width = width;
+        KM_Filters[filterId].attrs.height = height;
+    }
 
     if (status == SYS_OK) {
         /* Creating task for TSKKM application */
