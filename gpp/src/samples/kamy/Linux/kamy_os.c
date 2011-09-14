@@ -190,9 +190,9 @@ DSP_STATUS
 KM_OS_exit(Void)
 {
     DSP_STATUS status = DSP_SOK ;
-    Char8 c = 0 ;
 
     /*
+    Char8 c = 0 ;
     printf("Press enter to exit\n");
     c = getchar() ;
     while (c != '\n')
