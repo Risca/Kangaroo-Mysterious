@@ -40,6 +40,8 @@ extern "C" {
  *              Height of image in string format.
  *  @arg    height
  *              Height of image in numeric format.
+ *  @arg    strFilterId
+ *              Define what filter we want to use.
  *  @arg    strNumIterations
  *              Number of iterations a data buffer is transferred between
  *              GPP and DSP in string format.
@@ -65,6 +67,7 @@ KM_Main (IN Char8 * dspExecutable,
            IN Uint32  width,
            IN Char8 * strHeight,
            IN Uint32  height,
+           IN Char8 * strFilterId,
            IN Char8 * strNumIterations,
            IN Uint32  numIterations) ;
 

@@ -49,7 +49,7 @@ extern "C" {
  *  @desc   Number of arguments specified to the DSP application.
  *  ============================================================================
  */
-#define NUM_ARGS                3
+#define NUM_ARGS                4
 
 /** ============================================================================
  *  @name   POOL_ID
@@ -229,6 +229,7 @@ DSP_STATUS
 KM_Create (IN Char8 * dspExecutable,
              IN Char8 * strWidth,
              IN Char8 * strHeight,
+             IN Char8 * strFilterId,
              IN Char8 * strNumIterations)
 {
     DSP_STATUS       status   = DSP_SOK   ;
@@ -295,6 +296,7 @@ KM_Create (IN Char8 * dspExecutable,
         args [0] = strNumIterations ;
         args [1] = strWidth ;
 		args [2] = strHeight ;
+        args [3] = strFilterId ;
         status = PROC_load (processorId, dspExecutable, NUM_ARGS, args) ;
 
         if (DSP_FAILED (status)) {
@@ -603,6 +605,7 @@ KM_Main (IN Char8 * dspExecutable,
            IN Uint32  width,
 		   IN Char8 * strHeight,
 		   IN Uint32  height,
+           IN Char8 * strFilterId,
            IN Char8 * strNumIterations,
            IN Uint32  numIterations)
 {
@@ -635,6 +638,7 @@ KM_Main (IN Char8 * dspExecutable,
             status = KM_Create (dspExecutable,
                                   strWidth,
                                   strHeight,
+                                  strFilterId,
                                   strNumIterations) ;
 
             /*

@@ -69,6 +69,7 @@ int main (int argc, char ** argv)
     Char8 * strDspAddress    = NULL ;
 	Char8 * strWidth         = NULL ;
 	Char8 * strHeight        = NULL ;
+    Char8 * strFilterId      = NULL ;
     Char8 * strNumIterations = NULL ;
     Uint32  dspAddress       = 0 ;
 	Uint32  width            = 0 ;
@@ -76,11 +77,11 @@ int main (int argc, char ** argv)
     Uint32  numIterations    = 0 ;
     Char8 * pEnd             = NULL ;
 
-    if (argc != 6 ) {
+    if (argc != 7 ) {
         printf ("Usage : %s <absolute path of DSP executable> "
-                "<DSP address> <width> <height> <number of transfers>\n"
-                "For infinite transfers, "
-                "use value of 0 for <number of transfers>\n",
+                "<DSP address> <width> <height> <filterId> <number of transfers>\n"
+                "For simple bypass filter, use value of 0 for <filterId>\n"
+                "For infinite transfers, use value of 0 for <number of transfers>\n",
                 argv [0]) ;
     }
     else {
@@ -88,7 +89,8 @@ int main (int argc, char ** argv)
 		strDspAddress    = argv [2] ;
 		strWidth         = argv [3] ;
 		strHeight        = argv [4] ;
-		strNumIterations = argv [5] ;
+        strFilterId      = argv [5] ;
+		strNumIterations = argv [6] ;
 		dspAddress    = strtoul (strDspAddress, &pEnd, 0) ;
 		width         = atoi (strWidth) ;
 		height        = atoi (strHeight) ;
@@ -100,6 +102,7 @@ int main (int argc, char ** argv)
 				width,
 				strHeight,
 				height,
+                strFilterId,
 				strNumIterations,
 				numIterations) ;
     }
