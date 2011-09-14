@@ -4,7 +4,7 @@ EXECUTABLE = v4l2_and_directfb_mark3
 CC=arm-angstrom-linux-gnueabi-gcc
 PKGCONFIG=pkg-config
 
-CFLAGS  += $(shell $(PKGCONFIG) --cflags directfb) -Wall
+CFLAGS  += $(shell $(PKGCONFIG) --cflags directfb) -Wall -O2
 LDFLAGS +=
 LIBS    += $(shell $(PKGCONFIG) --libs directfb) -lv4l2
 

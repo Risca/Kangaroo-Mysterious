@@ -208,17 +208,21 @@ Int TSKKM_execute(TSKKM_TransferInfo * info)
             HAL_cacheInv ((Ptr) readBuf, size) ;
 
             /* Do DSP stuff here! */
-/*            convimg (readBuf, writeBuf, info->width, info->height, 0); */
             filter.attrs.imgIn  = readBuf ;
             filter.attrs.imgOut = writeBuf ;
-            (*filter.func) (&filter.attrs) ;
+            status = (*filter.func) (&filter.attrs) ;
 
-            HAL_cacheWbInv ((Ptr)(msg->dspWriteAddr), size) ;
-
-            /* Now send a message to the GPP */
-            status = MSGQ_put (info->gppMsgqQueue, (MSGQ_Msg) msg) ;
             if (status != SYS_OK) {
-                SET_FAILURE_REASON(status);
+                SET_FAILURE_REASON(status) ;
+            }
+            else {
+                HAL_cacheWbInv ((Ptr)(msg->dspWriteAddr), size) ;
+
+                /* Now send a message to the GPP */
+                status = MSGQ_put (info->gppMsgqQueue, (MSGQ_Msg) msg) ;
+                if (status != SYS_OK) {
+                    SET_FAILURE_REASON(status);
+                }
             }
         }
     }

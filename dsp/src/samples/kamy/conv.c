@@ -10,20 +10,26 @@
 #include <stdint.h>
 #include <string.h>
 #include <filters.h>
+/*  ----------------------------------- DSP/BIOS Headers            */
+#include <sys.h>
 
 int bypass_func (FilterAttrs *attrs)
 {
     /* I am a dummy function */
-    memcpy(attrs->imgIn, attrs->imgOut, attrs->height * attrs->width *2) ;
-    return 0;
+    Int status = SYS_OK ;
+    memcpy(attrs->imgOut, attrs->imgIn, attrs->height * attrs->width *2) ;
+    return status;
 }
 
-void convimg(unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 img_width, Uint16 img_height, unsigned char* kernel_ptr)
+int convimg_func (FilterAttrs *attrs)
 {
 	Uint16 col, row, conv_row, conv_col;
 	Int16 x, y;
 	Uint32 conv_sum = 0;
-	(void)kernel_ptr;
+    Uint8 *  inImg_ptr  = attrs->imgIn  ;
+    Uint8 *  outImg_ptr = attrs->imgOut ;
+    Uint16 img_width    = attrs->width  ;
+    Uint16 img_height   = attrs->height ;
 
 	// Copy input to output (to get all the chroma pixels right)
 	memcpy(outImg_ptr, inImg_ptr, img_height * img_width * 2);
@@ -50,9 +56,7 @@ void convimg(unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 img_wid
 			}
 		}
 	}
-	//This might not be neccesary.
-	//free(inImg_ptr);
-	return;
+	return SYS_OK;
 }
 
 void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 img_width, Uint16 img_height, unsigned char* kernel_ptr )
