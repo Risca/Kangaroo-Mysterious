@@ -1,4 +1,4 @@
-SOURCES    = v4l2_and_SDL.c v4l2_inc.c SDL_inc.c
+SOURCES    = v4l2_and_SDL.c v4l2_inc.c SDL_inc.c conv.c
 EXECUTABLE = v4l2_and_SDL
 
 CC=arm-angstrom-linux-gnueabi-gcc
