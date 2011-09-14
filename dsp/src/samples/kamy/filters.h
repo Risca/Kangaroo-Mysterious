@@ -33,8 +33,10 @@ extern Uint8 filterId ;
  *
  *  @desc   Structure used to pass filter attributes to filter functions
  *
- *  @field  img
- *              Pointer to image
+ *  @field  imgIn
+ *              Pointer to incoming image
+ *  @field  imgOut
+ *              Pointer to outgoing image
  *  @field  width
  *              Width of image
  *  @field  height
