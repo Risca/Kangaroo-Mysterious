@@ -119,7 +119,7 @@ int convBox1D (FilterAttrs * attrs)
     	        convSum -= offsetImgPtr[ indexOffsetOuter + nextPixelInner*( inner - kernelSideWidth - 1) ];
     	    }
     	    // Store the value.
-    	    offsetImgPtr [ indexOffsetOuter + indexOffsetInner ] = convSum;
+    	    offsetImgPtr [ indexOffsetOuter + indexOffsetInner ] = convSum/attrs->kernelSize;
     	}
     }
     memcpy(attrs->imgOut, attrs->imgIn, attrs->height * attrs->width *2) ;
