@@ -66,7 +66,7 @@ KM_Filter KM_Filters [NUM_FILTERS] = {
     {   /* Daniel's 2D fast blur */
         {
             NULL, NULL, 0, 0, /* Image attributes */
-            5,                /* Kernel size      */
+            3,                /* Kernel size      */
             0,                /* Offset           */
             2,                /* Spacing          */
             0                 /* Orientation      */
