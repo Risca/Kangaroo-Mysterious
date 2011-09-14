@@ -10,7 +10,7 @@
 #include <stdint.h>
 #include <string.h>
 
-int bypass_func (ImageAttrs *attrs)
+int bypass_func (FilterAttrs *attrs)
 {
     /* I am a dummy function */
     memcpy(attrs->imgIn, attrs->imgOut, attrs->height * attrs->width *2) ;

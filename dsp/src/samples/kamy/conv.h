@@ -24,7 +24,7 @@ extern "C"{
 #define BORDER		2
 
 // Function prototypes
-int bypass_func (ImageAttrs *attrs) ;
+int bypass_func (FilterAttrs *attrs) ;
 
 /*
  * Convolves an image with a filter kernel. Currently blurs the image.

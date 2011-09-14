@@ -49,7 +49,7 @@ extern Uint8 filterId ;
  *              0 == horizontal, 1 == vertical
  *  ============================================================================
  */
-typedef struct ImageAttrs_tag {
+typedef struct FilterAttrs_tag {
     Uint8 *  imgIn       ;
     Uint8 *  imgOut      ;
     Uint16   width       ;
@@ -58,14 +58,14 @@ typedef struct ImageAttrs_tag {
     Uint16   offset      ;
     Uint16   spacing     ;
     Uint16   orientation ;
-} ImageAttrs;
+} FilterAttrs;
 
 /** ============================================================================
  *  @name   KM_Filter_func
  *
  *  @desc   Function prototype for filter functions
  */
-typedef int (*KM_Filter_func)(ImageAttrs * attrs) ;
+typedef int (*KM_Filter_func)(FilterAttrs * attrs) ;
 
 /** ============================================================================
  *  @name   KM_Filter
@@ -74,7 +74,7 @@ typedef int (*KM_Filter_func)(ImageAttrs * attrs) ;
  *  ============================================================================
  */
 typedef struct KM_Filter_tag {
-    ImageAttrs     attrs       ;
+    FilterAttrs     attrs       ;
     KM_Filter_func func        ;
 } KM_Filter;
 
