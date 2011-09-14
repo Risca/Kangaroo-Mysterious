@@ -4,14 +4,27 @@
 #include "v4l2_inc.h"
 #include "SDL_inc.h"
 #include "defines.h"
+#include "conv.h"
 
 extern int fd;
 
+FilterAttrs attrs = {
+    NULL,   /* imgIn        */
+    NULL,   /* imgOut       */
+    WIDTH,  /* width        */
+    HEIGHT, /* height       */
+    5,      /* kernelSize   */
+    0,      /* offset       */
+    0,      /* spacing      */
+    0       /* orientation  */
+};
+
+
 int main(int argc,char *argv[])
 {
-    void * imgPtr = 0;
     int i, count = 100;
 
+    attrs.imgOut = malloc (sizeof(Uint8)*2*WIDTH*HEIGHT);
     initSDL ();
 
     if (!open_device ())
@@ -60,8 +73,9 @@ int main(int argc,char *argv[])
                 exit (EXIT_FAILURE);
             }
 
-            if (read_frame (&imgPtr)) {
-                displayFrame (imgPtr);
+            if (read_frame ((void*)&attrs.imgIn)) {
+                BWFilter_func(&attrs);
+                displayFrame (attrs.imgOut);
                 break;
             }
 
