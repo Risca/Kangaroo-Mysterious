@@ -24,7 +24,7 @@ Uint8 filterId ;
  *  @desc   Number of filters configured in the system.
  *  ============================================================================
  */
-#define NUM_FILTERS         3
+#define NUM_FILTERS         4
 
 /** ============================================================================
  *  @name   KM_Filters
@@ -62,8 +62,16 @@ KM_Filter KM_Filters [NUM_FILTERS] = {
             0                 /* Orientation      */
         },
         &BWFilter_func        /* Filter function  */
+    },
+    {   /* Legacy blur filter */
+        {
+            NULL, 0, 0, NULL, /* Image attributes */
+            5,                /* Kernel size      */
+            0,                /* Offset           */
+            0,                /* Spacing          */
+            0                 /* Orientation      */
+        },
+        &convimg_func         /* Filter function  */
     }
-
-
 };
 
