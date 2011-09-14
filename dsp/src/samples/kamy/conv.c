@@ -168,5 +168,5 @@ int BWFilter_func( FilterAttrs *a )
 			inImg++;
 		}
 	}
-	return 0;
+	return SYS_OK;
 }
