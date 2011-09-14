@@ -23,9 +23,12 @@ extern "C"{
 #define KERN_MAX_INDEX (KERNEL_SIZE-1)/2
 #define BORDER		2
 
+#define MACROPIXEL_SIZE 4;
+
 // Function prototypes
 int bypass_func (FilterAttrs *attrs) ;
 int convimg_func (FilterAttrs *attrs) ;
+int convBox1D (FilterAttrs *attrs) ;
 
 /** ============================================================================
  *  @func   unsharpenMask
@@ -58,7 +61,7 @@ int convimg_func (FilterAttrs *attrs) ;
  *  @author Daniel Josefsson
  *  ============================================================================
  */
-void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 img_width, Uint16 img_height, unsigned char* kernel_ptr );
+//void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 img_width, Uint16 img_height, unsigned char* kernel_ptr );
 
 #ifdef __cplusplus
 }

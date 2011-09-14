@@ -33,7 +33,7 @@ Uint8 filterId ;
  *  ============================================================================
  */
 KM_Filter KM_Filters [NUM_FILTERS] = {
-    {   /* F_BYPASS */
+    {   /* Bypass filter */
         {
             NULL, 0, 0, NULL, /* Image attributes */
             0,                /* Kernel size      */
@@ -43,7 +43,7 @@ KM_Filter KM_Filters [NUM_FILTERS] = {
         },
         &bypass_func          /* Filter function  */
     },
-    {   /* F_HBLUR3 (Horizontal blur, kernel size 3) */
+    {   /* Daniels 1D fast convolution blur */
         {
             NULL, 0, 0, NULL, /* Image attributes */
             3,                /* Kernel size      */
@@ -51,7 +51,7 @@ KM_Filter KM_Filters [NUM_FILTERS] = {
             2,                /* Spacing          */
             0                 /* Orientation      */
         },
-        &bypass_func          /* Filter function  */
+        &convBox1D            /* Filter function  */
     }
 };
 
