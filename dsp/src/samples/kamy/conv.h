@@ -27,11 +27,6 @@ extern "C"{
 int bypass_func (FilterAttrs *attrs) ;
 int convimg_func (FilterAttrs *attrs) ;
 
-/*
- * Convolves an image with a filter kernel. Currently blurs the image.
- */
-void convimg(unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 img_width, Uint16 img_height, unsigned char* kernel_ptr);
-
 /** ============================================================================
  *  @func   unsharpenMask
  *
