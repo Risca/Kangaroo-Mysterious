@@ -121,6 +121,7 @@ int convBox1D (FilterAttrs * attrs)
     	    offsetImgPtr [ indexOffsetOuter + indexOffsetInner ] = convSum;
     	}
     }
+    memcpy(attrs->imgOut, attrs->imgIn, attrs->height * attrs->width *2) ;
     return SYS_OK;
 }
 /*
