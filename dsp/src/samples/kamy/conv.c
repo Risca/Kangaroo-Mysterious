@@ -144,6 +144,7 @@ void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 
 	}
 
 }
+*/
 
 /*
  * BW-filter, sets all chreoma pixels to 128, copies all luma pixels.

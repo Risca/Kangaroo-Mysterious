@@ -46,7 +46,7 @@ KM_Filter KM_Filters [NUM_FILTERS] = {
     {   /* Daniels 1D fast convolution blur */
         {
             NULL, 0, 0, NULL, /* Image attributes */
-            3,                /* Kernel size      */
+            5,                /* Kernel size      */
             0,                /* Offset           */
             2,                /* Spacing          */
             0                 /* Orientation      */
