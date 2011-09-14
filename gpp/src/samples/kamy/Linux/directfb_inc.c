@@ -16,7 +16,7 @@ int directfb_init(int argc, char *argv[])
     DFBCHECK (DirectFBCreate (&dfb));
     DFBCHECK (dfb->SetCooperativeLevel (dfb, DFSCL_NORMAL));
     dsc.flags = DSDESC_CAPS | DSDESC_PIXELFORMAT;
-    dsc.caps  = DSCAPS_PRIMARY | DSCAPS_INTERLACED | DSCAPS_FLIPPING; 
+    dsc.caps  = DSCAPS_PRIMARY | DSCAPS_FLIPPING; 
     dsc.pixelformat = DSPF_YUY2;
     DFBCHECK (dfb->CreateSurface( dfb, &dsc, &primary ));
     DFBCHECK (primary->GetSize (primary, &screen_width, &screen_height));
