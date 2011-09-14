@@ -80,8 +80,9 @@ int convBox1D (FilterAttrs * attrs)
         maxOuter = attrs->height;
     	maxInner = nextPixelOuter;
     }
-    for ( outer; indexOffsetOuter = outer*nextPixelOuter < maxOuter; outer++ )
+    for ( outer=0; outer*nextPixelOuter < maxOuter; outer++ )
     {
+        indexOffsetOuter = outer*nextPixelOuter;
     	// Reset and preload convSum with the values of the pixels that the inner loop cant handle.
         convSum = 0;
         // Following loads all exept the last convolution values used in the first convolution process.
@@ -98,7 +99,7 @@ int convBox1D (FilterAttrs * attrs)
     	    // Check if the last pixel used in the convolution is outside the the range.
     	    if ( nextPixelInner*( inner + kernelSideWidth ) < maxInner )
     	    {
-    	        convSum += offsetImgPtr[ indexOffsetOuter + nextPixelInner*( inner + kernelSideWidth ];
+    	        convSum += offsetImgPtr[ indexOffsetOuter + nextPixelInner*( inner + kernelSideWidth ) ];
     	    }
     	    else
     	    {
@@ -114,15 +115,14 @@ int convBox1D (FilterAttrs * attrs)
     	    }
     	    else
     	    {
-    	        convSum -= offsetImgPtr[ indexOffsetOuter nextPixelInner*( inner - kernelSideWidth - 1) ];
+    	        convSum -= offsetImgPtr[ indexOffsetOuter + nextPixelInner*( inner - kernelSideWidth - 1) ];
     	    }
     	    // Store the value.
-    	    offsetImgPtr [ indexOffsetOuter + indexOffsetInner ];
+    	    offsetImgPtr [ indexOffsetOuter + indexOffsetInner ] = convSum;
     	}
     }
-
+    return SYS_OK;
 }
-
 
 void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 img_width, Uint16 img_height, unsigned char* kernel_ptr )
 {
