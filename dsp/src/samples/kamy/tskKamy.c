@@ -209,8 +209,8 @@ Int TSKKM_execute(TSKKM_TransferInfo * info)
 
             /* Do DSP stuff here! */
 /*            convimg (readBuf, writeBuf, info->width, info->height, 0); */
-            filter.attrs.img  = readBuf ;
-            filter.attrs.img2 = writeBuf ;
+            filter.attrs.imgIn  = readBuf ;
+            filter.attrs.imgOut = writeBuf ;
             (*filter.func) (&filter.attrs) ;
 
             HAL_cacheWbInv ((Ptr)(msg->dspWriteAddr), size) ;

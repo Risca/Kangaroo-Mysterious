@@ -13,7 +13,7 @@
 int bypass_func (ImageAttrs *attrs)
 {
     /* I am a dummy function */
-    memcpy(attrs->img2, attrs->img, attrs->height * attrs->width *2) ;
+    memcpy(attrs->imgIn, attrs->imgOut, attrs->height * attrs->width *2) ;
     return 0;
 }
 
