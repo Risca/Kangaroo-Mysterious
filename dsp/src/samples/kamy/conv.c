@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
+#include <filters.h>
 
 int bypass_func (FilterAttrs *attrs)
 {
@@ -71,4 +72,28 @@ void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 
 		}
 	}
 
+}
+
+/*
+ * BW-filter, sets all chreoma pixels to 128, copies all luma pixels.
+ */
+int BWFilter_func( FilterAttrs *a )
+{
+	Uint8 *inImg  = a->imgIn;
+	Uint8 *outImg = a->imgOut;
+	Uint16 col, row;
+	//memcpy(a->imgOut, a->imgIn, width*2*height);
+
+	// Loop through rows.
+	for( row = 0; row < a->height; row++)
+	{
+		// Loop through columns
+		for( col = 0; col < a->width; col++)
+		{
+			*outImg++ = *inImg++;	// Copy Y
+			*outImg++ = 128;		// Cr/Cb = 128
+			inImg++;
+		}
+	}
+	return 0;
 }
