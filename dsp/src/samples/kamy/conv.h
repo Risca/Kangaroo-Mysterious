@@ -17,7 +17,7 @@ extern "C"{
 #include <std.h>
 
 #define BORDER		2
-#define MACROPIXEL_SIZE 4;
+#define MACROPIXEL_SIZE 4
 
 // Function prototypes
 int bypass_func (FilterAttrs *attrs) ;
