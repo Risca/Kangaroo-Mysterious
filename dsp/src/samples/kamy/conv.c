@@ -95,8 +95,9 @@ int convBox1D (FilterAttrs * attrs)
     		convSum += offsetImgPtr[ indexOffsetOuter + inner*nextPixelInner ];
     	}
     	// Start the convolution process.
-    	for ( inner = 0; indexOffsetInner = inner*nextPixelInner < maxInner; inner++ )
+    	for ( inner = 0; inner*nextPixelInner < maxInner; inner++ )
     	{
+            indexOffsetInner = inner*nextPixelInner;
     	    // Check if the last pixel used in the convolution is outside the the range.
     	    if ( nextPixelInner*( inner + kernelSideWidth ) < maxInner )
     	    {
