@@ -25,6 +25,7 @@ extern "C"{
 
 // Function prototypes
 int bypass_func (FilterAttrs *attrs) ;
+int convimg_func (FilterAttrs *attrs) ;
 
 /*
  * Convolves an image with a filter kernel. Currently blurs the image.
