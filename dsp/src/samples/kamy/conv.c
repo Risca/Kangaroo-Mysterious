@@ -13,6 +13,8 @@
 /*  ----------------------------------- DSP/BIOS Headers            */
 #include <sys.h>
 
+Bool do_memcpy = 1;
+
 int bypass_func (FilterAttrs *attrs)
 {
     /* I am a dummy function */
@@ -59,30 +61,46 @@ int convimg_func (FilterAttrs *attrs)
 	}
 	return SYS_OK;
 }
+int convBox2D (FilterAttrs * attrs)
+{
+    do_memcpy = 0;
+    convBox1D (attrs) ;
+    attrs->orientation = 1 ;
+    do_memcpy = 1;
+    convBox1D (attrs) ;
+    return SYS_OK ;
+}
 
 int convBox1D (FilterAttrs * attrs)
 {
-    unsigned int outer = 0, inner = 0, nextPixelOuter, nextPixelInner, maxOuter, indexOffsetOuter, indexOffsetInner, maxInner, convSum, kernelSideWidth;
-
-    Uint8 * offsetImgPtr = attrs->imgIn + attrs->offset;
-    kernelSideWidth = (attrs->kernelSize - 1)/2;
+    Uint32 outer            = 0 ;
+    Uint32 inner            = 0 ;
+    Uint32 nextPixelOuter   = 0 ;
+    Uint32 nextPixelInner   = 0 ;
+    Uint32 maxOuter         = 0 ;
+    Uint32 indexOffsetOuter = 0 ;
+    Uint32 indexOffsetInner = 0 ;
+    Uint32 maxInner         = 0 ;
+    Uint32 convSum          = 0 ;
+    Uint32 kernelSideWidth  = (attrs->kernelSize - 1)/2;
+    Uint8 * offsetImgPtr    = attrs->imgIn + attrs->offset;
 
     // attrs->orientation = 1 represents vertical and = 0 horizontal.
     if ( attrs->orientation )
     {
         nextPixelOuter = attrs->spacing;
-    	nextPixelInner = attrs->width*MACROPIXEL_SIZE;
-    	maxOuter = nextPixelInner;
+    	nextPixelInner = attrs->width * BYTES_PER_PIXEL;
+    	maxOuter = attrs->width * BYTES_PER_PIXEL / attrs->spacing;
     	maxInner = attrs->height;
     }
     else
     {
-        nextPixelOuter = attrs->width*MACROPIXEL_SIZE;
+        nextPixelOuter = attrs->width * BYTES_PER_PIXEL;
         nextPixelInner = attrs->spacing;
         maxOuter = attrs->height;
-    	maxInner = nextPixelOuter;
+    	maxInner = attrs->width * BYTES_PER_PIXEL / attrs->spacing;
     }
-    for ( outer=0; outer*nextPixelOuter < maxOuter; outer++ )
+    for ( outer=0; outer < maxOuter; outer++ )
     {
         indexOffsetOuter = outer*nextPixelOuter;
     	// Reset and preload convSum with the values of the pixels that the inner loop cant handle.
@@ -96,37 +114,47 @@ int convBox1D (FilterAttrs * attrs)
     		convSum += offsetImgPtr[ indexOffsetOuter + inner*nextPixelInner ];
     	}
     	// Start the convolution process.
-    	for ( inner = 0; inner*nextPixelInner < maxInner; inner++ )
+    	for ( inner = 0; inner < maxInner; inner++ )
     	{
             indexOffsetInner = inner*nextPixelInner;
-    	    // Check if the last pixel used in the convolution is outside the the range.
-    	    if ( nextPixelInner*( inner + kernelSideWidth ) < maxInner )
+    	    // Check if the last pixel used in the convolution is outside the range.
+    	    if ( ( inner + kernelSideWidth ) < maxInner )
     	    {
-    	        convSum += offsetImgPtr[ indexOffsetOuter + nextPixelInner*( inner + kernelSideWidth ) ];
+                convSum += offsetImgPtr[ indexOffsetOuter + nextPixelInner*( inner + kernelSideWidth ) ];
     	    }
     	    else
     	    {
     	        // Add the max border value.
-    	    	convSum += offsetImgPtr[ indexOffsetOuter + maxInner - nextPixelInner ];
+                convSum += offsetImgPtr[ indexOffsetOuter + (maxInner - 1)*attrs->spacing ];
     	    }
     	    // Remove the convolution value that not shall be included in this convolution but were in the last.
     	    // Check if the value is out of range
     	    if ( inner <= kernelSideWidth )
     	    {
     	        // Remove the min border value.
-    	    	convSum -= offsetImgPtr[ indexOffsetOuter ];
+/*                if (convSum < offsetImgPtr[ indexOffsetOuter ])
+                    convSum = 0;
+                else*/
+        	    	convSum -= offsetImgPtr[ indexOffsetOuter ];
     	    }
     	    else
     	    {
-    	        convSum -= offsetImgPtr[ indexOffsetOuter + nextPixelInner*( inner - kernelSideWidth - 1) ];
+                /*if (convSum < offsetImgPtr[ indexOffsetOuter + nextPixelInner*( inner - kernelSideWidth - 1) ])
+                    convSum = 0;
+                else*/
+        	        convSum -= offsetImgPtr[ indexOffsetOuter + nextPixelInner*( inner - kernelSideWidth - 1) ]-kernelSideWidth;
     	    }
     	    // Store the value.
     	    offsetImgPtr [ indexOffsetOuter + indexOffsetInner ] = convSum/attrs->kernelSize;
     	}
     }
-    memcpy(attrs->imgOut, attrs->imgIn, attrs->height * attrs->width *2) ;
+
+    if (do_memcpy)
+        memcpy(attrs->imgOut, attrs->imgIn, attrs->height * attrs->width *2) ;
+
     return SYS_OK;
 }
+
 /*
 void unsharpenMask( unsigned char* inImg_ptr, unsigned char* outImg_ptr, Uint16 img_width, Uint16 img_height, unsigned char* kernel_ptr )
 {

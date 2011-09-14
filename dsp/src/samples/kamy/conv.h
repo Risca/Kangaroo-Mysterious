@@ -17,12 +17,13 @@ extern "C"{
 #include <std.h>
 
 #define BORDER		2
-#define MACROPIXEL_SIZE 4
+#define BYTES_PER_PIXEL 4
 
 // Function prototypes
 int bypass_func (FilterAttrs *attrs) ;
 int convimg_func (FilterAttrs *attrs) ;
 int convBox1D (FilterAttrs *attrs) ;
+int convBox2D (FilterAttrs *attrs) ;
 int BWFilter_func( FilterAttrs *a ) ;
 
 /** ============================================================================
