@@ -390,25 +390,6 @@ KM_Execute (IN Uint32  dspAddress,
         (  ((numIterations == 0) || (i <= numIterations))
          && DSP_SUCCEEDED (status)) ;
          i++) {
-        /*
-         *  Prime the DSP memory regions to allow for data integrity check
-         */
-        ptr8  = (Uint8 *) (bufIn) ;
-        for (j = 0 ;
-             DSP_SUCCEEDED (status) && (j < bufferSize) ;
-             j++)
-        {
-            *ptr8 = 0 ;
-            ptr8++ ;
-        }
-
-        if (DSP_SUCCEEDED (status)) {
-            status = PROC_write (processorId, dspAddr2, bufferSize, bufIn) ;
-            if (DSP_FAILED (status)) {
-                KM_1Print ("PROC_write Failed. Status: [0x%x]\n",
-                                  status) ;
-            }
-        }
 
         /*  Prime the data buffer for the sample application
          *  - Initialize the buffer to a sample image
